@@ -11,6 +11,7 @@ import java.util.List;
 /**
  * Created by haipham on 3/19/17.
  */
+@SuppressWarnings("UndeclaredTests")
 public final class XPathTest {
     @Test
     public void test_buildXPath_shouldSucceed() {
@@ -25,7 +26,7 @@ public final class XPathTest {
 
         XPath xPath2 = XPath.builder()
             .addAttribute(attrs.containsID("test-id").withIndex(1))
-            .addAttribute(attrs.not(attrs.containsText("text").withClass("TC")))
+            .addAttribute(attrs.containsText("text").withClass("TC").not())
             .addChildXPath(xPath1)
             .build();
 
@@ -60,14 +61,15 @@ public final class XPathTest {
 
         Attributes attrs = Attributes.of(platform);
 
-        Attribute attribute = Attribute.builder()
+        Attribute attribute = Attribute.<String>builder()
             .addAttribute("id")
-            .withFormatible((Attributes.ContainsString) () -> "test-id")
-            .withMode(Attribute.Mode.OR)
+            .withFormatible(new Attributes.ContainsString() {})
+            .withValue("test-id")
+            .withJoiner(Attribute.Joiner.OR)
             .build();
 
         LogUtil.println(attribute);
-        LogUtil.println(attrs.not(attribute));
+        LogUtil.println(attribute.not());
         LogUtil.println(attrs.containsID("test-id"));
         LogUtil.println(attrs.atIndex(1));
         LogUtil.println(attrs.hasText("test-text"));
