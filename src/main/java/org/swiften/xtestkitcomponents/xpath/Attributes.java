@@ -4,12 +4,9 @@ package org.swiften.xtestkitcomponents.xpath;
  * Created by haipham on 5/6/17.
  */
 
-import io.reactivex.annotations.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 import org.swiften.xtestkitcomponents.property.base.IgnoreCaseType;
-import org.swiften.xtestkitcomponents.property.base.StringType;
-import org.swiften.xtestkitcomponents.property.sub.*;
 
 import java.util.Collection;
 import java.util.LinkedList;
