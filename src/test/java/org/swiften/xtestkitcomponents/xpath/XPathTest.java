@@ -20,14 +20,13 @@ public final class XPathTest {
         Attributes attrs = Attributes.of(platform);
 
         XPath xPath1 = XPath.builder()
-            .addAttribute(attrs.atIndex(1).withClass("TC"))
+            .addAttribute(attrs.atIndex(1))
             .addAttribute(attrs.ofInstance(1))
             .build();
 
         XPath xPath2 = XPath.builder()
-            .addAttribute(attrs.containsID("test-id").withIndex(1))
-            .addAttribute(attrs.containsText("text").withClass("TC").not())
-            .addChildXPath(xPath1)
+            .addAttribute(attrs.containsID("test-id"))
+            .addAttribute(attrs.containsText("text").not())
             .build();
 
         XPath xPath3 = XPath.builder()
@@ -36,10 +35,23 @@ public final class XPathTest {
             .addAttribute(attrs.isClickable(true))
             .build();
 
+        CompoundAttribute compoundAttr = CompoundAttribute.builder()
+            .addAttribute(attrs.containsText("text1"))
+            .addAttribute(attrs.ofClass("class1").not())
+            .addAttribute(attrs.isEditable(true))
+            .build()
+            .withClass("TC")
+            .withIndex(1);
+
+        XPath xPath4 = XPath.builder()
+            .addAttribute(compoundAttr)
+            .build();
+
         // When & Then
         LogUtil.println(xPath1.attribute());
         LogUtil.println(xPath2.attribute());
         LogUtil.println(xPath3.attribute());
+        LogUtil.println(xPath4.attribute());
     }
 
     @Test
@@ -68,12 +80,14 @@ public final class XPathTest {
             .withJoiner(Attribute.Joiner.OR)
             .build();
 
+        LogUtil.println(CompoundAttribute.empty());
+        LogUtil.println(CompoundAttribute.forClass("TC"));
         LogUtil.println(attribute);
         LogUtil.println(attribute.not());
         LogUtil.println(attrs.containsID("test-id"));
         LogUtil.println(attrs.atIndex(1));
         LogUtil.println(attrs.hasText("test-text"));
-        LogUtil.println(attrs.containsText("test-text").withClass("TC").withIndex(1));
-        LogUtil.println(attrs.isEnabled(true).withClass("TC").withIndex(2));
+        LogUtil.println(attrs.containsText("test-text"));
+        LogUtil.println(attrs.isEnabled(true));
     }
 }

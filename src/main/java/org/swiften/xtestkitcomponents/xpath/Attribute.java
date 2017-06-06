@@ -6,10 +6,8 @@ package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.swiften.javautilities.log.LogUtil;
 import org.swiften.javautilities.object.ObjectUtil;
 import org.swiften.xtestkitcomponents.common.BaseErrorType;
-import org.swiften.xtestkitcomponents.property.base.AttributeType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -34,8 +32,7 @@ public final class Attribute<T> implements BaseErrorType {
 
     /**
      * This {@link Enum} contains formatter that encloses the entire
-     * {@link Attribute}, not including {@link Attribute#className} and
-     * {@link Attribute#index}, i.e. {@link Attribute#baseAttribute()}. This
+     * {@link Attribute}, i.e. {@link Attribute#baseAttribute()}. This
      * is different from {@link Formatible}, which is applied to each attribute
      * in {@link Attribute#ATTRIBUTES}.
      */
@@ -114,15 +111,13 @@ public final class Attribute<T> implements BaseErrorType {
 
     @NotNull private final List<String> ATTRIBUTES;
     @NotNull private Joiner joiner;
-    @NotNull private String className;
     @NotNull private Wrapper wrapper;
-    @Nullable private Formatible<T> formatible;
-    @Nullable private Integer index;
+    @NotNull private Formatible<T> formatible;
     @Nullable private T value;
 
     Attribute() {
         ATTRIBUTES = new ArrayList<>();
-        className = "*";
+        formatible = new Formatible<T>() {};
         joiner = Joiner.AND;
         wrapper = Wrapper.NONE;
     }
@@ -169,41 +164,13 @@ public final class Attribute<T> implements BaseErrorType {
 
     /**
      * Get {@link #formatible}.
-     *
      * @return {@link Formatible} instance.
      * @see ObjectUtil#nonNull(Object)
      * @see #formatible
-     * @see #NOT_AVAILABLE
      */
     @NotNull
     public Formatible<T> formatible() {
-        if (ObjectUtil.nonNull(formatible)) {
-            return formatible;
-        } else {
-            throw new RuntimeException(NOT_AVAILABLE);
-        }
-    }
-
-    /**
-     * Get {@link #className}.
-     *
-     * @return {@link String} value.
-     * @see #className
-     */
-    @NotNull
-    public String className() {
-        return className;
-    }
-
-    /**
-     * Get {@link #index}.
-     *
-     * @return {@link Integer} value.
-     * @see #index
-     */
-    @Nullable
-    public Integer index() {
-        return index;
+        return formatible;
     }
 
     /**
@@ -247,68 +214,46 @@ public final class Attribute<T> implements BaseErrorType {
     }
 
     /**
-     * Get the full attribute, including {@link #className()} and
-     * {@link #index()}.
-     *
+     * Get the wrapped {@link #baseAttribute()}.
      * @return {@link String} value.
-     * @see AttributeType#value()
-     * @see ObjectUtil#nonNull(Object)
-     * @see Wrapper#wrapperFormat()
+     * @see Wrapper#wrappedAttribute()
      * @see #baseAttribute()
-     * @see #className()
-     * @see #index()
      * @see #wrapper()
      */
     @NotNull
-    public String fullAttribute() {
+    private String wrappedAttribute() {
         Wrapper wrapper = wrapper();
         String wrapperFormat = wrapper.wrapperFormat();
-        String className = className();
-        Integer index = index();
         String base = baseAttribute();
-        String wrapped = String.format(wrapperFormat, base);
-        String withClass = String.format("//%s[%s]", className, wrapped);
-
-        if (ObjectUtil.nonNull(index)) {
-            return String.format("%s[%d]", withClass, index);
-        } else {
-            return withClass;
-        }
+        return String.format(wrapperFormat, base);
     }
 
     /**
-     * Get a new {@link Attribute} instance with a class name.
-     *
-     * @param clsName {@link String} value.
-     * @return {@link Attribute} instance.
-     * @see Builder#build()
-     * @see Builder#withAttribute(Attribute)
-     * @see Builder#withClass(String)
-     * @see #builder()
+     * Get the full attribute.
+     * @return {@link String} value.
+     * @see ObjectUtil#nonNull(Object)
+     * @see #wrappedAttribute()
      */
     @NotNull
-    public Attribute<T> withClass(@NotNull String clsName) {
-        return Attribute.<T>builder()
-            .withAttribute(this)
-            .withClass(clsName)
-            .build();
+    public String fullAttribute() {
+        String wrapped = wrappedAttribute();
+        return String.format("[%s]", wrapped);
     }
 
     /**
-     * Get a new {@link Attribute} instance with an index.
-     *
-     * @param index {@link Integer} value.
+     * Get a new {@link Attribute} instance with a different value.
+     * @param value {@link T} instance.
      * @return {@link Attribute} instance.
      * @see Builder#build()
      * @see Builder#withAttribute(Attribute)
-     * @see Builder#withIndex(Integer)
+     * @see Builder#withValue(Object)
      * @see #builder()
      */
     @NotNull
-    public Attribute withIndex(@Nullable Integer index) {
+    public Attribute<T> withValue(@NotNull T value) {
         return Attribute.<T>builder()
             .withAttribute(this)
-            .withIndex(index)
+            .withValue(value)
             .build();
     }
 
@@ -421,32 +366,6 @@ public final class Attribute<T> implements BaseErrorType {
         }
 
         /**
-         * Set {@link #className}.
-         *
-         * @param clsName {@link String} value.
-         * @return The current {@link Builder} instance.
-         * @see #className
-         */
-        @NotNull
-        public Builder<T> withClass(@NotNull String clsName) {
-            ATTRIBUTE.className = clsName;
-            return this;
-        }
-
-        /**
-         * Set {@link #index} instance.
-         *
-         * @param index {@link Integer} value.
-         * @return The {@link Builder} instance.
-         * @see #index
-         */
-        @NotNull
-        public Builder<T> withIndex(@Nullable Integer index) {
-            ATTRIBUTE.index = index;
-            return this;
-        }
-
-        /**
          * Set the {@link #value} instance.
          * @param value {@link T} instance.
          * @return The current {@link Builder} instance.
@@ -464,16 +383,12 @@ public final class Attribute<T> implements BaseErrorType {
          * @param attribute {@link Attribute} instance.
          * @return The current {@link Builder} instance.
          * @see Attribute#attributes()
-         * @see Attribute#className()
          * @see Attribute#formatible()
-         * @see Attribute#index()
          * @see Attribute#joiner()
          * @see Attribute#value()
          * @see Attribute#wrapper()
          * @see #withAttributes(Collection)
-         * @see #withClass(String)
          * @see #withFormatible(Formatible)
-         * @see #withIndex(Integer)
          * @see #withJoiner(Joiner)
          * @see #withValue(Object)
          * @see #withWrapper(Wrapper)
@@ -482,9 +397,7 @@ public final class Attribute<T> implements BaseErrorType {
         public Builder<T> withAttribute(@NotNull Attribute<T> attribute) {
             return this
                 .withAttributes(attribute.attributes())
-                .withClass(attribute.className())
                 .withFormatible(attribute.formatible())
-                .withIndex(attribute.index())
                 .withJoiner(attribute.joiner())
                 .withWrapper(attribute.wrapper())
                 .withValue(attribute.value());
