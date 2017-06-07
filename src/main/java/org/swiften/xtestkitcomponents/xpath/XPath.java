@@ -125,6 +125,19 @@ public class XPath {
         }
 
         /**
+         * Add {@link #ATTRIBUTES} from another {@link XPath} instance.
+         * @param xPath {@link XPath} instance.
+         * @return The current {@link Builder} instance.
+         * @see XPath#compoundAttributes()
+         * @see #ATTRIBUTES
+         */
+        @NotNull
+        public Builder addXPath(@NotNull XPath xPath) {
+            XPATH.ATTRIBUTES.addAll(xPath.compoundAttributes());
+            return this;
+        }
+
+        /**
          * Add {@link Attribute} to {@link #ATTRIBUTES} by wrapping it within
          * {@link CompoundAttribute}.
          * @param attribute {@link Attribute} instance.

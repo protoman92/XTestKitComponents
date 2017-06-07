@@ -69,10 +69,10 @@ public final class CompoundAttribute {
      * @param target {@link CompoundAttribute} instance.
      * @param sibling {@link CompoundAttribute} instance.
      * @return {@link Collection} of {@link CompoundAttribute}.
-     * @see Axis#FOLLOWING_SIBLING
      * @see Builder#withAxis(Axis)
      * @see Builder#withCompoundAttribute(CompoundAttribute)
      * @see CollectionUtil#asList(Object[])
+     * @see Axis#FOLLOWING_SIBLING
      * @see Path#DIRECT
      * @see #builder()
      */
@@ -88,6 +88,37 @@ public final class CompoundAttribute {
         CompoundAttribute c2 = builder()
             .withCompoundAttribute(target)
             .withAxis(Axis.FOLLOWING_SIBLING)
+            .withPath(Path.DIRECT)
+            .build();
+
+        return CollectionUtil.asList(c1, c2);
+    }
+
+    /**
+     * Get {@link Collection} of {@link CompoundAttribute} that, once used
+     * together, would produce a query that locates the preceding sibling
+     * {@link CompoundAttribute}.
+     * @param target {@link CompoundAttribute} instance.
+     * @param sibling {@link CompoundAttribute} instance.
+     * @return {@link Collection} of {@link CompoundAttribute}.
+     * @see Builder#withAxis(Axis)
+     * @see Builder#withCompoundAttribute(CompoundAttribute)
+     * @see CollectionUtil#asList(Object[])
+     * @see Axis#PRECEDING_SIBLING
+     * @see Path#DIRECT
+     * @see #builder()
+     */
+    public static Collection<CompoundAttribute> precedingSibling(
+        @NotNull CompoundAttribute target,
+        @NotNull CompoundAttribute sibling
+    ) {
+        CompoundAttribute c1 = builder()
+            .withCompoundAttribute(sibling)
+            .build();
+
+        CompoundAttribute c2 = builder()
+            .withCompoundAttribute(target)
+            .withAxis(Axis.PRECEDING_SIBLING)
             .withPath(Path.DIRECT)
             .build();
 
