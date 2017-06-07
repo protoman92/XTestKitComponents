@@ -20,7 +20,7 @@ public class ProcessRunner {
      * @param args {@link String} command to be executed.
      */
     private void logCommand(@NotNull String args) {
-        LogUtil.printfThread("Executing '%s'", args);
+        LogUtil.printft("Executing '%s'", args);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ProcessRunner {
         } catch (IOException e) {
             String err = e.getMessage();
             String error = outputStream.toString();
-            LogUtil.printfThread("Error running '%s': '%s' - %s", args, err, error);
+            LogUtil.printft("Error running '%s': '%s' - %s", args, err, error);
             onError.accept(e);
         } finally {
             try {

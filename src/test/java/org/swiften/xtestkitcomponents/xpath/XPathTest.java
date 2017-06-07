@@ -35,7 +35,7 @@ public final class XPathTest {
             .addAttribute(attrs.isClickable(true))
             .build();
 
-        CompoundAttribute compoundAttr = CompoundAttribute.builder()
+        CompoundAttribute cAttr1 = CompoundAttribute.builder()
             .addAttribute(attrs.containsText("text1"))
             .addAttribute(attrs.ofClass("class1").not())
             .addAttribute(attrs.isEditable(true))
@@ -44,7 +44,19 @@ public final class XPathTest {
             .withIndex(1);
 
         XPath xPath4 = XPath.builder()
-            .addAttribute(compoundAttr)
+            .addAttribute(CompoundAttribute.followingSibling(
+                CompoundAttribute.builder()
+                    .addAttribute(attrs.containsID("parent1"))
+                    .build(),
+
+                CompoundAttribute.builder()
+                    .addAttribute(attrs.containsText("text1"))
+                    .addAttribute(attrs.ofClass("class1").not())
+                    .addAttribute(attrs.isEditable(true))
+                    .build()
+                    .withClass("TC")
+                    .withIndex(1)
+            ))
             .build();
 
         // When & Then

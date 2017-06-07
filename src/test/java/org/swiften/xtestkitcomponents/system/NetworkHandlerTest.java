@@ -123,7 +123,7 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
         Flowable.range(minPort, tries)
             .map(CheckPort::new)
             .flatMap(HANDLER::rxa_checkUntilPortAvailable)
-            .doOnNext(a -> LogUtil.printfThread("Port %d", a))
+            .doOnNext(a -> LogUtil.printft("Port %d", a))
             .subscribe(subscriber);
 
         subscriber.awaitTerminalEvent();

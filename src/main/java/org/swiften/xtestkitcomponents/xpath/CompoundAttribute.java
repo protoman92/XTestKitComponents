@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
 import org.swiften.javautilities.object.ObjectUtil;
+import org.swiften.xtestkitcomponents.common.BaseErrorType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -61,12 +62,112 @@ public final class CompoundAttribute {
         return builder().addAttribute(attribute).build();
     }
 
+    /**
+     * Get {@link Collection} of {@link CompoundAttribute} that, once used
+     * together, would produce a query that locates the following sibling
+     * {@link CompoundAttribute}.
+     * @param target {@link CompoundAttribute} instance.
+     * @param sibling {@link CompoundAttribute} instance.
+     * @return {@link Collection} of {@link CompoundAttribute}.
+     * @see Axis#FOLLOWING_SIBLING
+     * @see Builder#withAxis(Axis)
+     * @see Builder#withCompoundAttribute(CompoundAttribute)
+     * @see CollectionUtil#asList(Object[])
+     * @see Path#DIRECT
+     * @see #builder()
+     */
+    @NotNull
+    public static Collection<CompoundAttribute> followingSibling(
+        @NotNull CompoundAttribute target,
+        @NotNull CompoundAttribute sibling
+    ) {
+        CompoundAttribute c1 = builder()
+            .withCompoundAttribute(sibling)
+            .build();
+
+        CompoundAttribute c2 = builder()
+            .withCompoundAttribute(target)
+            .withAxis(Axis.FOLLOWING_SIBLING)
+            .withPath(Path.DIRECT)
+            .build();
+
+        return CollectionUtil.asList(c1, c2);
+    }
+
+    /**
+     * Use this to specify how child elements are queried.
+     */
+    public enum Path implements BaseErrorType {
+        ANY,
+        DIRECT;
+
+        /**
+         * Get the symbol {@link String} to append to the start of the
+         * {@link CompoundAttribute#baseAttribute()}.
+         * @return {@link String} value.
+         * @see #ANY
+         * @see #DIRECT
+         * @see #NOT_AVAILABLE
+         */
+        @NotNull
+        private String symbol() {
+            switch (this) {
+                case ANY:
+                    return "//";
+
+                case DIRECT:
+                    return "/";
+
+                default:
+                    throw new RuntimeException(NOT_AVAILABLE);
+            }
+        }
+    }
+
+    /**
+     * Use this to add axis to {@link CompoundAttribute}.
+     */
+    public enum Axis implements BaseErrorType {
+        FOLLOWING_SIBLING,
+        PRECEDING_SIBLING,
+        NONE;
+
+        /**
+         * Get the associated symbol {@link String}.
+         * @return {@link String} value.
+         * @see #FOLLOWING_SIBLING
+         * @see #PRECEDING_SIBLING
+         * @see #NONE
+         * @see #NOT_AVAILABLE
+         */
+        @NotNull
+        private String symbol() {
+            switch (this) {
+                case FOLLOWING_SIBLING:
+                    return "following-sibling::";
+
+                case PRECEDING_SIBLING:
+                    return "preceding-sibling::";
+
+                case NONE:
+                    return "";
+
+                default:
+                    throw new RuntimeException(NOT_AVAILABLE);
+            }
+        }
+    }
+
     @NotNull private final Collection<Attribute<?>> ATTRIBUTES;
+    @NotNull private Axis axis;
+    @NotNull private Path path;
     @NotNull private String className;
     @Nullable private Integer index;
 
     CompoundAttribute() {
         ATTRIBUTES = new LinkedList<>();
+        path = Path.ANY;
+        axis = Axis.NONE;
         className = "*";
     }
 
@@ -79,6 +180,26 @@ public final class CompoundAttribute {
     @NotNull
     public Collection<Attribute<?>> attributes() {
         return Collections.unmodifiableCollection(ATTRIBUTES);
+    }
+
+    /**
+     * Get {@link #path}.
+     * @return {@link Path} instance.
+     * @see #path
+     */
+    @NotNull
+    public Path path() {
+        return path;
+    }
+
+    /**
+     * Get {@link #axis}.
+     * @return {@link Axis} instance.
+     * @see #axis
+     */
+    @NotNull
+    public Axis axis() {
+        return axis;
     }
 
     /**
@@ -126,25 +247,44 @@ public final class CompoundAttribute {
     private String attributeWithClass() {
         String className = className();
         String wrapped = baseAttribute();
-        return String.format("//%s%s", className, wrapped);
+        return String.format("%s%s", className, wrapped);
+    }
+
+    /**
+     * Get the {@link #attributeWithClass()} with {@link #path}.
+     * @return {@link String} value.
+     * @see Path#symbol()
+     * @see Axis#symbol()
+     * @see #attributeWithClass()
+     * @see #path()
+     * @see #axis()
+     */
+    @NotNull
+    private String attributeWithPath() {
+        String withClass = attributeWithClass();
+        Path descendant = path();
+        Axis dmSuffix = axis();
+        String dSymbol = descendant.symbol();
+        String dmSymbol = dmSuffix.symbol();
+        return String.format("%s%s%s", dSymbol, dmSymbol, withClass);
     }
 
     /**
      * Get the full attribute, including {@link #index}.
      * @return {@link String} value.
      * @see ObjectUtil#nonNull(Object)
-     * @see #attributeWithClass()
+     * @see #attributeWithPath()
      * @see #index()
      */
     @NotNull
     public String fullAttribute() {
-        String withClass = attributeWithClass();
+        String withDM = attributeWithPath();
         Integer index = index();
 
         if (ObjectUtil.nonNull(index)) {
-            return String.format("%s[%d]", withClass, index);
+            return String.format("%s[%d]", withDM, index);
         } else {
-            return withClass;
+            return withDM;
         }
     }
 
@@ -186,14 +326,14 @@ public final class CompoundAttribute {
      * Get a new {@link CompoundAttribute} instance with extra {@link Attribute}.
      * @param attrs {@link Collection} of {@link Attribute}.
      * @return {@link CompoundAttribute} instance.
-     * @see CompoundAttribute.Builder#addAttributes(Collection)
+     * @see CompoundAttribute.Builder#addAttribute(Collection)
      * @see CompoundAttribute.Builder#withCompoundAttribute(CompoundAttribute)
      * @see #builder()
      */
     public CompoundAttribute addAttributes(@NotNull Collection<Attribute<?>> attrs) {
         return CompoundAttribute.builder()
             .withCompoundAttribute(this)
-            .addAttributes(attrs)
+            .addAttribute(attrs)
             .build();
     }
 
@@ -238,7 +378,7 @@ public final class CompoundAttribute {
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttributes(@NotNull Collection<Attribute<?>> attributes) {
+        public Builder addAttribute(@NotNull Collection<Attribute<?>> attributes) {
             ATTRIBUTE.ATTRIBUTES.addAll(attributes);
             return this;
         }
@@ -250,9 +390,33 @@ public final class CompoundAttribute {
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder withAttributes(@NotNull Collection<Attribute<?>> attributes) {
+        public Builder withAttribute(@NotNull Collection<Attribute<?>> attributes) {
             ATTRIBUTE.ATTRIBUTES.clear();
             ATTRIBUTE.ATTRIBUTES.addAll(attributes);
+            return this;
+        }
+
+        /**
+         * Set the {@link #path} instance.
+         * @param mode {@link Path} instance.
+         * @return The current {@link Builder} instance.
+         * @see #path
+         */
+        @NotNull
+        public Builder withPath(@NotNull Path mode) {
+            ATTRIBUTE.path = mode;
+            return this;
+        }
+
+        /**
+         * Set the {@link #axis} instance.
+         * @param axis {@link Axis} instance.
+         * @return The current {@link Builder} instance.
+         * @see #axis
+         */
+        @NotNull
+        public Builder withAxis(@NotNull Axis axis) {
+            ATTRIBUTE.axis = axis;
             return this;
         }
 
@@ -285,16 +449,22 @@ public final class CompoundAttribute {
          * @param attribute {@link CompoundAttribute} instance.
          * @return The current {@link Builder} instance.
          * @see CompoundAttribute#attributes()
+         * @see CompoundAttribute#axis()
          * @see CompoundAttribute#className()
          * @see CompoundAttribute#index()
-         * @see #withAttributes(Collection)
+         * @see CompoundAttribute#path()
+         * @see #withAttribute(Collection)
+         * @see #withAxis(Axis)
          * @see #withClass(String)
          * @see #withIndex(Integer)
+         * @see #withPath(Path)
          */
         @NotNull
         public Builder withCompoundAttribute(@NotNull CompoundAttribute attribute) {
             return this
-                .withAttributes(attribute.attributes())
+                .withAttribute(attribute.attributes())
+                .withAxis(attribute.axis())
+                .withPath(attribute.path())
                 .withClass(attribute.className())
                 .withIndex(attribute.index());
         }

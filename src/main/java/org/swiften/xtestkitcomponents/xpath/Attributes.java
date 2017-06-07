@@ -48,7 +48,7 @@ public final class Attributes {
      * Get a @index {@link Attribute}.
      * @param index {@link Integer} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -59,7 +59,7 @@ public final class Attributes {
     @NotNull
     public Attribute atIndex(int index) {
         return Attribute.<Integer>builder()
-            .addAttributes(platform().indexAttribute())
+            .addAttribute(platform().indexAttribute())
             .withFormatible(new AtIndex() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(index)
@@ -70,7 +70,7 @@ public final class Attributes {
      * Get a @instance {@link Attribute}.
      * @param instance {@link Integer} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -81,7 +81,7 @@ public final class Attributes {
     @NotNull
     public Attribute ofInstance(int instance) {
         return Attribute.<Integer>builder()
-            .addAttributes(platform().instanceAttribute())
+            .addAttribute(platform().instanceAttribute())
             .withFormatible(new OfInstance() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(instance)
@@ -92,7 +92,7 @@ public final class Attributes {
      * Get a contains(@class) attribute.
      * @param className {@link String} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -103,7 +103,7 @@ public final class Attributes {
     @NotNull
     public Attribute ofClass(@NotNull String className) {
         return Attribute.<String>builder()
-            .addAttributes(platform().classAttribute())
+            .addAttribute(platform().classAttribute())
             .withFormatible(new OfClass() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(className)
@@ -114,7 +114,7 @@ public final class Attributes {
      * Get a contains(@id) attribute.
      * @param id {@link String} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -125,7 +125,7 @@ public final class Attributes {
     @NotNull
     public Attribute containsID(@NotNull String id) {
         return Attribute.<String>builder()
-            .addAttributes(platform().idAttribute())
+            .addAttribute(platform().idAttribute())
             .withJoiner(Attribute.Joiner.OR)
             .withFormatible(new ContainsID() {})
             .withValue(id)
@@ -136,7 +136,7 @@ public final class Attributes {
      * Get a @text {@link Attribute}.
      * @param text The text to be appended.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -147,7 +147,7 @@ public final class Attributes {
     @NotNull
     public Attribute hasText(@NotNull String text) {
         return Attribute.<String>builder()
-            .addAttributes(platform().textAttribute())
+            .addAttribute(platform().textAttribute())
             .withFormatible(new HasText() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(text)
@@ -158,7 +158,7 @@ public final class Attributes {
      * Get a contains(@text) {@link Attribute}.
      * @param text The text to be appended.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -169,7 +169,7 @@ public final class Attributes {
     @NotNull
     public Attribute containsText(@NotNull String text) {
         return Attribute.<String>builder()
-            .addAttributes(platform().textAttribute())
+            .addAttribute(platform().textAttribute())
             .withFormatible(new ContainsText() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(text)
@@ -180,7 +180,7 @@ public final class Attributes {
      * Get an @enabled {@link Attribute}.
      * @param enabled {@link Boolean} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -191,7 +191,7 @@ public final class Attributes {
     @NotNull
     public Attribute isEnabled(boolean enabled) {
         return Attribute.<Boolean>builder()
-            .addAttributes(platform().enabledAttribute())
+            .addAttribute(platform().enabledAttribute())
             .withFormatible(new Enabled() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(enabled)
@@ -202,7 +202,7 @@ public final class Attributes {
      * Get a @clickable {@link Attribute}.
      * @param clickable {@link Boolean} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -213,7 +213,7 @@ public final class Attributes {
     @NotNull
     public Attribute isClickable(final boolean clickable) {
         return Attribute.<Boolean>builder()
-            .addAttributes(platform().clickableAttribute())
+            .addAttribute(platform().clickableAttribute())
             .withFormatible(new Clickable() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(clickable)
@@ -224,7 +224,7 @@ public final class Attributes {
      * Get a @editable {@link Attribute}.
      * @param editable {@link Boolean} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withJoiner(Attribute.Joiner)
      * @see Attribute.Builder#withValue(Object)
@@ -235,7 +235,7 @@ public final class Attributes {
     @NotNull
     public Attribute isEditable(boolean editable) {
         return Attribute.<Boolean>builder()
-            .addAttributes(platform().editableAttribute())
+            .addAttribute(platform().editableAttribute())
             .withFormatible(new Editable() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(editable)
@@ -246,7 +246,7 @@ public final class Attributes {
      * Get a @focused {@link Attribute}.
      * @param FOCUSED {@link Boolean} value.
      * @return {@link Attribute} instance.
-     * @see Attribute.Builder#addAttributes(Collection)
+     * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
      * @see Attribute.Builder#withValue(Object)
      * @see Attribute.Builder#withValue(Object)
@@ -257,7 +257,7 @@ public final class Attributes {
     @NotNull
     public Attribute isFocused(final boolean FOCUSED) {
         return Attribute.<Boolean>builder()
-            .addAttributes(platform().focusedAttribute())
+            .addAttribute(platform().focusedAttribute())
             .withFormatible(new Focused() {})
             .withJoiner(Attribute.Joiner.OR)
             .withValue(FOCUSED)

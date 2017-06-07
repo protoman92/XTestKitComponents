@@ -55,7 +55,7 @@ public class XPath {
      * {@link CompoundAttribute} within {@link #ATTRIBUTES}.
      * @param ATTRS {@link Attribute} instance.
      * @return {@link XPath} instance.
-     * @see Builder#addAttributes(Collection)
+     * @see Builder#addAttribute(Collection)
      * @see Builder#build()
      * @see #builder()
      * @see #ATTRIBUTES
@@ -66,7 +66,7 @@ public class XPath {
             .map(a -> a.addAttributes(ATTRS))
             .collect(Collectors.toList());
 
-        return builder().addAttributes(attributes).build();
+        return builder().addAttribute(attributes).build();
     }
 
     /**
@@ -157,7 +157,7 @@ public class XPath {
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttributes(@NotNull Collection<CompoundAttribute> attributes) {
+        public Builder addAttribute(@NotNull Collection<CompoundAttribute> attributes) {
             XPATH.ATTRIBUTES.addAll(attributes);
             return this;
         }

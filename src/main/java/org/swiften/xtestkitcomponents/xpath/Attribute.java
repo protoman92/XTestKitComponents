@@ -77,7 +77,7 @@ public final class Attribute<T> implements BaseErrorType {
          * @see #NOT_AVAILABLE
          */
         @NotNull
-        public String joiner() {
+        public String symbol() {
             switch (this) {
                 case AND:
                     return "and";
@@ -87,24 +87,6 @@ public final class Attribute<T> implements BaseErrorType {
 
                 default:
                     throw new RuntimeException(NOT_AVAILABLE);
-            }
-        }
-
-        /**
-         * Get the joiner symbol {@link String} that can be used to join
-         * different queries.
-         *
-         * @return {@link String} value.
-         * @see #OR
-         */
-        @NotNull
-        public String joinerSymbol() {
-            switch (this) {
-                case OR:
-                    return "|";
-
-                default:
-                    return "";
             }
         }
     }
@@ -193,7 +175,7 @@ public final class Attribute<T> implements BaseErrorType {
      * Get the base attribute based on {@link #ATTRIBUTES}.
      * @return {@link String} value.
      * @see Formatible#stringFormat(Object)
-     * @see Joiner#joiner()
+     * @see Joiner#symbol()
      * @see #attributes()
      * @see #formatible()
      * @see #value()
@@ -209,7 +191,7 @@ public final class Attribute<T> implements BaseErrorType {
             .map(a -> String.format(FORMAT, a))
             .collect(Collectors.toList());
 
-        String joined = String.format(" %s ", joiner.joiner());
+        String joined = String.format(" %s ", joiner.symbol());
         return String.join(joined, attributes);
     }
 
@@ -307,7 +289,7 @@ public final class Attribute<T> implements BaseErrorType {
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder<T> addAttributes(@NotNull Collection<String> attributes) {
+        public Builder<T> addAttribute(@NotNull Collection<String> attributes) {
             ATTRIBUTE.ATTRIBUTES.addAll(attributes);
             return this;
         }
@@ -320,7 +302,7 @@ public final class Attribute<T> implements BaseErrorType {
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder<T> withAttributes(@NotNull Collection<String> attributes) {
+        public Builder<T> withAttribute(@NotNull Collection<String> attributes) {
             ATTRIBUTE.ATTRIBUTES.clear();
             ATTRIBUTE.ATTRIBUTES.addAll(attributes);
             return this;
@@ -387,7 +369,7 @@ public final class Attribute<T> implements BaseErrorType {
          * @see Attribute#joiner()
          * @see Attribute#value()
          * @see Attribute#wrapper()
-         * @see #withAttributes(Collection)
+         * @see #withAttribute(Collection)
          * @see #withFormatible(Formatible)
          * @see #withJoiner(Joiner)
          * @see #withValue(Object)
@@ -396,7 +378,7 @@ public final class Attribute<T> implements BaseErrorType {
         @NotNull
         public Builder<T> withAttribute(@NotNull Attribute<T> attribute) {
             return this
-                .withAttributes(attribute.attributes())
+                .withAttribute(attribute.attributes())
                 .withFormatible(attribute.formatible())
                 .withJoiner(attribute.joiner())
                 .withWrapper(attribute.wrapper())
