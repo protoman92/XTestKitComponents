@@ -1,7 +1,6 @@
-package org.swiften.xtestkitcomponents.unidirection;
+package org.swiften.xtestkitcomponents.direction;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.unidirection.Unidirection;
 
 /**
  * Created by haipham on 5/8/17.

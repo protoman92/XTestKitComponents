@@ -3,6 +3,7 @@ package org.swiften.xtestkitcomponents.platform;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.CollectionUtil;
 
+import java.util.Collection;
 import java.util.List;
 
 /**
@@ -17,50 +18,52 @@ public interface PlatformType {
 
     /**
      * Specify the name of an index attribute. Generally should be 'index'.
-     * @return {@link List} of {@link String}.
+     * @return {@link Collection} of {@link String}.
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> indexAttribute() {
+    default Collection<String> indexAttribute() {
         return CollectionUtil.asList("index");
     }
 
     /**
      * Specify the name of an instance attribute. Generally should be
      * 'instance'.
-     * @return {@link List} of {@link String}.
+     * @return {@link Collection} of {@link String}.
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> instanceAttribute() {
+    default Collection<String> instanceAttribute() {
         return CollectionUtil.asList("instance");
     }
 
     /**
      * Specify the name of a class attribute. Generally should be 'class'.
-     * @return {@link List} of {@link String}.
+     * @return {@link Collection} of {@link String}.
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> classAttribute() {
+    default Collection<String> classAttribute() {
         return CollectionUtil.asList("class");
     }
 
     /**
      * Specify the name for a id attribute. Generally should be 'id'.
-     * @return {@link List} of {@link String}.
+     * @return {@link Collection} of {@link String}.
      * @see CollectionUtil#asList(Object[])
      */
-    @NotNull default List<String> idAttribute() {
+    @NotNull
+    default Collection<String> idAttribute() {
         return CollectionUtil.asList("id");
     }
 
     /**
      * Specify the name for a text attribute. Generally should be 'text'.
-     * @return {@link List} of {@link String}.
+     * @return {@link Collection} of {@link String}.
      * @see CollectionUtil#asList(Object[])
      */
-    @NotNull default List<String> textAttribute() {
+    @NotNull
+    default Collection<String> textAttribute() {
         return CollectionUtil.asList("text");
     }
 
@@ -71,7 +74,7 @@ public interface PlatformType {
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> enabledAttribute() {
+    default Collection<String> enabledAttribute() {
         return CollectionUtil.asList("enabled");
     }
 
@@ -82,7 +85,7 @@ public interface PlatformType {
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> clickableAttribute() {
+    default Collection<String> clickableAttribute() {
         return CollectionUtil.asList("clickable");
     }
 
@@ -93,7 +96,7 @@ public interface PlatformType {
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> editableAttribute() {
+    default Collection<String> editableAttribute() {
         return CollectionUtil.asList("editable");
     }
 
@@ -103,7 +106,7 @@ public interface PlatformType {
      * @see CollectionUtil#asList(Object[])
      */
     @NotNull
-    default List<String> focusedAttribute() {
+    default Collection<String> focusedAttribute() {
         return CollectionUtil.asList("focused");
     }
 }

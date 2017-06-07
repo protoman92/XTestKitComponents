@@ -1,4 +1,4 @@
-package org.swiften.xtestkitcomponents.unidirection;
+package org.swiften.xtestkitcomponents.direction;
 
 /**
  * Created by haipham on 5/9/17.
