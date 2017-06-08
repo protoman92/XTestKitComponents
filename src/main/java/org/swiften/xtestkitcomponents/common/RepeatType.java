@@ -20,6 +20,6 @@ public interface RepeatType extends DelayType {
      * @return {@link Long} value.
      */
     default long delay() {
-        return 0;
+        return 1000;
     }
 }

@@ -10,8 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * This interface provides retry count.
  */
 public interface RetryType {
-    @NotNull
-    RetryType DEFAULT = new RetryType() {};
+    @NotNull RetryType DEFAULT = new RetryType() {};
 
     /**
      * Use this retry count if we are running an operation that is not expected

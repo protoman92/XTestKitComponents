@@ -13,6 +13,8 @@ dependencies {
     compile project(':JavaUtilities')
 
     compile "io.appium:java-client:+"
-    testCompile "org.testng:testng:+"
-    testCompile "org.mockito:mockito-core:+"
+    compile "org.testng:testng:+"
+    compile "org.mockito:mockito-core:+"
+    compile "org.apache.commons:commons-exec:+"
+    compile "commons-io:commons-io:+"
 }
