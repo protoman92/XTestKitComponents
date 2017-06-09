@@ -10,7 +10,9 @@ import org.swiften.xtestkitcomponents.property.base.AttributeType;
 import java.util.Optional;
 
 /**
- * Use this with {@link XPath.QuotationFree} to strip quotation marks.
+ * Use this with
+ * {@link org.swiften.xtestkitcomponents.xpath.Attributes.QuotationFree} to
+ * strip quotation marks.
  */
 public enum QuoteMark implements AttributeType<String> {
     SINGLE,
@@ -50,6 +52,7 @@ public enum QuoteMark implements AttributeType<String> {
      * @see #wrappedInQuotation()
      */
     @NotNull
+    @SuppressWarnings("OptionalIsPresent")
     public static String wrapInQuotation(@NotNull String value) {
         Optional<QuoteMark> qm = from(value);
 
