@@ -41,6 +41,7 @@ public interface TestLifecycleType {
     /**
      * Convenience execution for {@link org.testng.annotations.BeforeClass}.
      * @param param {@link RetryType} instance.
+     * @see #assertLifecycle(TestSubscriber)
      * @see #rxa_beforeClass(RetryType)
      */
     @SuppressWarnings("unchecked")
@@ -48,11 +49,13 @@ public interface TestLifecycleType {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_beforeClass(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
+        assertLifecycle(subscriber);
     }
 
     /**
      * Convenience execution for {@link org.testng.annotations.AfterClass}.
      * @param param {@link RetryType} instance.
+     * @see #assertLifecycle(TestSubscriber)
      * @see #rxa_afterClass(RetryType)
      */
     @SuppressWarnings("unchecked")
@@ -60,11 +63,13 @@ public interface TestLifecycleType {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_afterClass(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
+        assertLifecycle(subscriber);
     }
 
     /**
      * Convenience execution for {@link org.testng.annotations.BeforeMethod}.
      * @param param {@link RetryType} instance.
+     * @see #assertLifecycle(TestSubscriber)
      * @see #rxa_beforeMethod(RetryType)
      */
     @SuppressWarnings("unchecked")
@@ -72,11 +77,13 @@ public interface TestLifecycleType {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_beforeMethod(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
+        assertLifecycle(subscriber);
     }
 
     /**
      * Convenience execution for {@link org.testng.annotations.AfterMethod}.
      * @param param {@link RetryType} instance.
+     * @see #assertLifecycle(TestSubscriber)
      * @see #rxa_afterMethod(RetryType)
      */
     @SuppressWarnings("unchecked")
@@ -84,5 +91,16 @@ public interface TestLifecycleType {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_afterMethod(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
+        assertLifecycle(subscriber);
+    }
+
+    /**
+     * Verify that lifecycle methods have been correctly called.
+     * @param subscriber {@link TestSubscriber} instance.
+     */
+    default void assertLifecycle(@NotNull TestSubscriber<?> subscriber) {
+        subscriber.assertSubscribed();
+        subscriber.assertNoErrors();
+        subscriber.assertComplete();
     }
 }
