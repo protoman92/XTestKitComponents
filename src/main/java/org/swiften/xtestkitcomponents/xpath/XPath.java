@@ -1,5 +1,6 @@
 package org.swiften.xtestkitcomponents.xpath;
 
+import io.reactivex.annotations.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.CollectionUtil;
 import org.swiften.xtestkitcomponents.common.BaseErrorType;
@@ -173,6 +174,42 @@ public class XPath {
         public Builder addAttribute(@NotNull Collection<CompoundAttribute> attributes) {
             XPATH.ATTRIBUTES.addAll(attributes);
             return this;
+        }
+
+        /**
+         * Convenient method for
+         * {@link CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)}.
+         * @param target {@link CompoundAttribute} instance.
+         * @param sibling {@link CompoundAttribute} instance.
+         * @return The current {@link Builder} instance.
+         * @see CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)
+         * @see #addAttribute(CompoundAttribute)
+         */
+        @NonNull
+        public Builder precedingSibling(@NotNull CompoundAttribute target,
+                                        @NonNull CompoundAttribute sibling) {
+            Collection<CompoundAttribute> attrs = CompoundAttribute
+                .precedingSibling(target, sibling);
+
+            return addAttribute(attrs);
+        }
+
+        /**
+         * Convenient method for
+         * {@link CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)}.
+         * @param target {@link CompoundAttribute} instance.
+         * @param sibling {@link CompoundAttribute} instance.
+         * @return The current {@link Builder} instance.
+         * @see CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)
+         * @see #addAttribute(CompoundAttribute)
+         */
+        @NonNull
+        public Builder followingSibling(@NotNull CompoundAttribute target,
+                                        @NonNull CompoundAttribute sibling) {
+            Collection<CompoundAttribute> attrs = CompoundAttribute
+                .followingSibling(target, sibling);
+
+            return addAttribute(attrs);
         }
 
         @NotNull
