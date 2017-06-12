@@ -270,7 +270,6 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Add an attribute to {@link #ATTRIBUTES}.
-         *
          * @param attribute The attribute to be added.
          * @return The current {@link Builder} instance.
          * @see #ATTRIBUTES
