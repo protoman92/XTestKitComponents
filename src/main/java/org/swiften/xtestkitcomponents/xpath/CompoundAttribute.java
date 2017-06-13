@@ -50,29 +50,29 @@ public final class CompoundAttribute {
     }
 
     /**
-     * {@link CompoundAttribute} with a single {@link Attribute}.
-     * @param attribute {@link Attribute} instance.
+     * {@link CompoundAttribute} with a single {@link AttributeBlock}.
+     * @param block {@link AttributeBlock} instance.
      * @return {@link CompoundAttribute} instance.
-     * @see Builder#addAttribute(Attribute)
+     * @see Builder#addAttribute(AttributeBlock)
      * @see Builder#build()
      * @see #builder()
      */
     @NotNull
-    public static CompoundAttribute single(@NotNull Attribute<?> attribute) {
-        return builder().addAttribute(attribute).build();
+    public static CompoundAttribute single(@NotNull AttributeBlock block) {
+        return builder().addAttribute(block).build();
     }
 
     /**
-     * {@link CompoundAttribute} with multiple {@link Attribute}.
-     * @param attributes Varargs of {@link Attribute} instance.
+     * {@link CompoundAttribute} with a single {@link AttributeType}.
+     * @param attribute {@link AttributeType} instance.
      * @return {@link CompoundAttribute} instance.
-     * @see Builder#addAttribute(Attribute[])
+     * @see Builder#addAttribute(AttributeType)
      * @see Builder#build()
      * @see #builder()
      */
     @NotNull
-    public static CompoundAttribute multiple(@NotNull Attribute<?>...attributes) {
-        return builder().addAttribute(attributes).build();
+    public static CompoundAttribute single(@NotNull AttributeType attribute) {
+        return builder().addAttribute(attribute).build();
     }
 
     /**
@@ -83,7 +83,7 @@ public final class CompoundAttribute {
      * @param sibling {@link CompoundAttribute} instance.
      * @return {@link Collection} of {@link CompoundAttribute}.
      * @see Builder#withAxis(Axis)
-     * @see Builder#withCompoundAttribute(CompoundAttribute)
+     * @see Builder#withAttribute(CompoundAttribute)
      * @see CollectionUtil#asList(Object[])
      * @see Axis#FOLLOWING_SIBLING
      * @see Path#DIRECT
@@ -94,12 +94,10 @@ public final class CompoundAttribute {
         @NotNull CompoundAttribute target,
         @NotNull CompoundAttribute sibling
     ) {
-        CompoundAttribute c1 = builder()
-            .withCompoundAttribute(sibling)
-            .build();
+        CompoundAttribute c1 = builder().withAttribute(sibling).build();
 
         CompoundAttribute c2 = builder()
-            .withCompoundAttribute(target)
+            .withAttribute(target)
             .withAxis(Axis.FOLLOWING_SIBLING)
             .withPath(Path.DIRECT)
             .build();
@@ -115,7 +113,7 @@ public final class CompoundAttribute {
      * @param sibling {@link CompoundAttribute} instance.
      * @return {@link Collection} of {@link CompoundAttribute}.
      * @see Builder#withAxis(Axis)
-     * @see Builder#withCompoundAttribute(CompoundAttribute)
+     * @see Builder#withAttribute(CompoundAttribute)
      * @see CollectionUtil#asList(Object[])
      * @see Axis#PRECEDING_SIBLING
      * @see Path#DIRECT
@@ -125,12 +123,10 @@ public final class CompoundAttribute {
         @NotNull CompoundAttribute target,
         @NotNull CompoundAttribute sibling
     ) {
-        CompoundAttribute c1 = builder()
-            .withCompoundAttribute(sibling)
-            .build();
+        CompoundAttribute c1 = builder().withAttribute(sibling).build();
 
         CompoundAttribute c2 = builder()
-            .withCompoundAttribute(target)
+            .withAttribute(target)
             .withAxis(Axis.PRECEDING_SIBLING)
             .withPath(Path.DIRECT)
             .build();
@@ -138,71 +134,7 @@ public final class CompoundAttribute {
         return CollectionUtil.asList(c1, c2);
     }
 
-    /**
-     * Use this to specify how child elements are queried.
-     */
-    public enum Path implements BaseErrorType {
-        ANY,
-        DIRECT;
-
-        /**
-         * Get the symbol {@link String} to append to the start of the
-         * {@link CompoundAttribute#baseAttribute()}.
-         * @return {@link String} value.
-         * @see #ANY
-         * @see #DIRECT
-         * @see #NOT_AVAILABLE
-         */
-        @NotNull
-        private String symbol() {
-            switch (this) {
-                case ANY:
-                    return "//";
-
-                case DIRECT:
-                    return "/";
-
-                default:
-                    throw new RuntimeException(NOT_AVAILABLE);
-            }
-        }
-    }
-
-    /**
-     * Use this to add axis to {@link CompoundAttribute}.
-     */
-    public enum Axis implements BaseErrorType {
-        FOLLOWING_SIBLING,
-        PRECEDING_SIBLING,
-        NONE;
-
-        /**
-         * Get the associated symbol {@link String}.
-         * @return {@link String} value.
-         * @see #FOLLOWING_SIBLING
-         * @see #PRECEDING_SIBLING
-         * @see #NONE
-         * @see #NOT_AVAILABLE
-         */
-        @NotNull
-        private String symbol() {
-            switch (this) {
-                case FOLLOWING_SIBLING:
-                    return "following-sibling::";
-
-                case PRECEDING_SIBLING:
-                    return "preceding-sibling::";
-
-                case NONE:
-                    return "";
-
-                default:
-                    throw new RuntimeException(NOT_AVAILABLE);
-            }
-        }
-    }
-
-    @NotNull private final Collection<Attribute<?>> ATTRIBUTES;
+    @NotNull private final Collection<AttributeBlock> ATTRIBUTES;
     @NotNull private Axis axis;
     @NotNull private Path path;
     @NotNull private String className;
@@ -222,7 +154,7 @@ public final class CompoundAttribute {
      * @see #ATTRIBUTES
      */
     @NotNull
-    public Collection<Attribute<?>> attributes() {
+    public Collection<AttributeBlock> attributes() {
         return Collections.unmodifiableCollection(ATTRIBUTES);
     }
 
@@ -275,7 +207,8 @@ public final class CompoundAttribute {
     @NotNull
     private String baseAttribute() {
         List<String> attrs = attributes().stream()
-            .map(Attribute::fullAttribute)
+            .map(AttributeType::fullAttribute)
+            .map(a -> String.format("[%s]", a))
             .collect(Collectors.toList());
 
         return String.join("", attrs);
@@ -337,14 +270,14 @@ public final class CompoundAttribute {
      * @param clsName {@link String} value.
      * @return {@link CompoundAttribute} instance.
      * @see CompoundAttribute.Builder#build()
-     * @see CompoundAttribute.Builder#withCompoundAttribute(CompoundAttribute)
+     * @see CompoundAttribute.Builder#withAttribute(CompoundAttribute)
      * @see CompoundAttribute.Builder#withClass(String)
      * @see #builder()
      */
     @NotNull
     public CompoundAttribute withClass(@NotNull String clsName) {
         return CompoundAttribute.builder()
-            .withCompoundAttribute(this)
+            .withAttribute(this)
             .withClass(clsName)
             .build();
     }
@@ -354,43 +287,73 @@ public final class CompoundAttribute {
      * @param index {@link Integer} value.
      * @return {@link CompoundAttribute} instance.
      * @see CompoundAttribute.Builder#build()
-     * @see CompoundAttribute.Builder#withCompoundAttribute(CompoundAttribute)
+     * @see CompoundAttribute.Builder#withAttribute(CompoundAttribute)
      * @see CompoundAttribute.Builder#withIndex(Integer)
      * @see #builder()
      */
     @NotNull
     public CompoundAttribute withIndex(@Nullable Integer index) {
         return CompoundAttribute.builder()
-            .withCompoundAttribute(this)
+            .withAttribute(this)
             .withIndex(index)
             .build();
     }
 
     /**
-     * Get a new {@link CompoundAttribute} instance with extra {@link Attribute}.
-     * @param attrs {@link Collection} of {@link Attribute}.
+     * Get a new {@link CompoundAttribute} instance with extra
+     * {@link AttributeBlock}.
+     * @param attrs {@link Collection} of {@link AttributeBlock}.
      * @return {@link CompoundAttribute} instance.
      * @see CompoundAttribute.Builder#addAttribute(Collection)
-     * @see CompoundAttribute.Builder#withCompoundAttribute(CompoundAttribute)
+     * @see CompoundAttribute.Builder#withAttribute(CompoundAttribute)
      * @see #builder()
      */
-    public CompoundAttribute addAttributes(@NotNull Collection<Attribute<?>> attrs) {
+    public CompoundAttribute addBlock(@NotNull Collection<AttributeBlock> attrs) {
         return CompoundAttribute.builder()
-            .withCompoundAttribute(this)
+            .withAttribute(this)
             .addAttribute(attrs)
             .build();
     }
 
     /**
-     * Same as above, but uses a varargs of {@link Attribute}.
-     * @param attrs Varargs of {@link Attribute}.
+     * Get a new {@link CompoundAttribute} instance with extra
+     * {@link AttributeType}.
+     * @param attrs {@link Collection} of {@link AttributeType}.
      * @return {@link CompoundAttribute} instance.
-     * @see CollectionUtil#asList(Object[])
-     * @see #addAttributes(Collection)
+     * @see AttributeBlock#single(AttributeType)
+     * @see #addBlock(Collection)
      */
     @NotNull
-    public CompoundAttribute addAttributes(@NotNull Attribute<?>...attrs) {
-        return addAttributes(CollectionUtil.asList(attrs));
+    public CompoundAttribute addAttribute(@NotNull Collection<AttributeType> attrs) {
+        List<AttributeBlock> blocks = attrs.stream()
+            .map(AttributeBlock::single)
+            .collect(Collectors.toList());
+
+        return addBlock(blocks);
+    }
+
+    /**
+     * Same as above, but uses a varargs of {@link Attribute}.
+     * @param attrs Varargs of {@link AttributeBlock}.
+     * @return {@link CompoundAttribute} instance.
+     * @see CollectionUtil#asList(Object[])
+     * @see #addBlock(Collection)
+     */
+    @NotNull
+    public CompoundAttribute addBlock(@NotNull AttributeBlock...attrs) {
+        return addAttribute(CollectionUtil.asList(attrs));
+    }
+
+    /**
+     * Same as above, but uses a varargs of {@link AttributeType}.
+     * @param attrs Varargs of {@link AttributeType}.
+     * @return {@link CompoundAttribute} instance.
+     * @see CollectionUtil#asList(Object[])
+     * @see #addBlock(Collection)
+     */
+    @NotNull
+    public CompoundAttribute addAttribute(@NotNull AttributeType...attrs) {
+        return addAttribute(CollectionUtil.asList(attrs));
     }
 
     /**
@@ -404,52 +367,81 @@ public final class CompoundAttribute {
         }
 
         /**
-         * Add {@link Attribute} to {@link #ATTRIBUTES}.
-         * @param attribute {@link Attribute} instance.
+         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
+         * @param attribute {@link AttributeBlock} instance.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Attribute attribute) {
+        public Builder addAttribute(@NotNull AttributeBlock attribute) {
             ATTRIBUTE.ATTRIBUTES.add(attribute);
             return this;
         }
 
         /**
-         * Add {@link Attribute} to {@link #ATTRIBUTES}.
-         * @param attributes {@link Collection} of {@link Attribute}.
+         * Add {@link AttributeType} to {@link #ATTRIBUTES}.
+         * @param attribute {@link AttributeType} instance.
+         * @return {@link Builder} instance.
+         * @see AttributeBlock#single(AttributeType)
+         * @see #addAttribute(AttributeBlock)
+         */
+        @NotNull
+        public Builder addAttribute(@NotNull AttributeType attribute) {
+            AttributeBlock attr = AttributeBlock.single(attribute);
+            return addAttribute(attr);
+        }
+
+        /**
+         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
+         * @param attributes {@link Collection} of {@link AttributeBlock}.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Collection<Attribute<?>> attributes) {
+        public Builder addAttribute(@NotNull Collection<AttributeBlock> attributes) {
             ATTRIBUTE.ATTRIBUTES.addAll(attributes);
             return this;
         }
 
         /**
-         * Add {@link Attribute} to {@link #ATTRIBUTES}.
+         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
          * @param attributes Varargs of {@link Attribute}.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Attribute<?>...attributes) {
+        public Builder addAttribute(@NotNull AttributeBlock...attributes) {
             Collections.addAll(ATTRIBUTE.ATTRIBUTES, attributes);
             return this;
         }
 
         /**
-         * Replace all {@link Attribute} within {@link #ATTRIBUTES}.
-         * @param attributes {@link Collection} of {@link Attribute}.
+         * Add {@link AttributeType} to {@link #ATTRIBUTES}.
+         * @param attributes {@link AttributeType} instance.
          * @return {@link Builder} instance.
+         * @see AttributeBlock#single(AttributeType)
+         * @see #addAttribute(AttributeBlock...)
+         */
+        @NotNull
+        public Builder addAttribute(@NotNull AttributeType...attributes) {
+            List<AttributeBlock> attrs = Arrays.stream(attributes)
+                .map(AttributeBlock::single)
+                .collect(Collectors.toList());
+
+            return addAttribute(attrs);
+        }
+
+        /**
+         * Replace all {@link AttributeBlock} within {@link #ATTRIBUTES}.
+         * @param attributes {@link Collection} of {@link AttributeBlock}.
+         * @return {@link Builder} instance.
+         * @see #addAttribute(Collection)
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder withAttribute(@NotNull Collection<Attribute<?>> attributes) {
+        public Builder withAttribute(@NotNull Collection<AttributeBlock> attributes) {
             ATTRIBUTE.ATTRIBUTES.clear();
-            ATTRIBUTE.ATTRIBUTES.addAll(attributes);
-            return this;
+            return addAttribute(attributes);
         }
 
         /**
@@ -516,7 +508,7 @@ public final class CompoundAttribute {
          * @see #withPath(Path)
          */
         @NotNull
-        public Builder withCompoundAttribute(@NotNull CompoundAttribute attribute) {
+        public Builder withAttribute(@NotNull CompoundAttribute attribute) {
             return this
                 .withAttribute(attribute.attributes())
                 .withAxis(attribute.axis())

@@ -108,11 +108,29 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
     }
 
     /**
+     * Get a new {@link Attribute} instance with a possibly different
+     * {@link Wrapper}.
+     * @param wrapper {@link Wrapper} instance.
+     * @return {@link Attribute} instance.
+     * @see Builder#build()
+     * @see Builder#withAttribute(Attribute)
+     * @see Builder#withWrapper(Wrapper)
+     * @see #builder()
+     */
+    @NotNull
+    public Attribute<T> withWrapper(@NotNull Wrapper wrapper) {
+        return Attribute.<T>builder()
+            .withAttribute(this)
+            .withWrapper(wrapper)
+            .build();
+    }
+
+    /**
      * Override this method to provide default implementation.
      * @return {@link String} value.
-     * @see AttributeType#baseAttribute() 
+     * @see AttributeType#baseAttribute()
      * @see Formatible#stringFormat(Object)
-     * @see Joiner#word()
+     * @see Joiner#symbol()
      * @see #attributes()
      * @see #formatible()
      * @see #value()
@@ -129,7 +147,7 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
             .map(a -> String.format(FORMAT, a))
             .collect(Collectors.toList());
 
-        String joined = String.format(" %s ", joiner.word());
+        String joined = String.format(" %s ", joiner.symbol());
         return String.join(joined, attributes);
     }
 
@@ -149,25 +167,6 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
         return Attribute.<T>builder()
             .withAttribute(this)
             .withJoiner(joiner)
-            .build();
-    }
-
-    /**
-     * Override this method to provide default implementation.
-     * @param wrapper {@link Wrapper} instance.
-     * @return {@link Attribute} instance.
-     * @see AttributeType#withWrapper(Wrapper)
-     * @see Builder#build()
-     * @see Builder#withAttribute(Attribute)
-     * @see Builder#withWrapper(Wrapper)
-     * @see #builder()
-     */
-    @NotNull
-    @Override
-    public Attribute<T> withWrapper(@NotNull Wrapper wrapper) {
-        return Attribute.<T>builder()
-            .withAttribute(this)
-            .withWrapper(wrapper)
             .build();
     }
 

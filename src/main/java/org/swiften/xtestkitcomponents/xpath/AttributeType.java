@@ -27,14 +27,6 @@ public interface AttributeType {
     @NotNull AttributeType withJoiner(@NotNull Joiner joiner);
 
     /**
-     * Get a new {@link AttributeType} instance with a possibly different
-     * {@link Wrapper}.
-     * @param wrapper {@link Wrapper} instance.
-     * @return {@link AttributeType} instance.
-     */
-    @NotNull AttributeType withWrapper(@NotNull Wrapper wrapper);
-
-    /**
      * Get the base attribute without any wrapping.
      * @return {@link String} value.
      */

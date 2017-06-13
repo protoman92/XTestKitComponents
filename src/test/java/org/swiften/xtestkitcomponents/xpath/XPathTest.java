@@ -60,7 +60,7 @@ public final class XPathTest {
 
     @Test
     public void test_attributeCreation_shouldWork() {
-        // Setup && When & Then
+        // Setup
         PlatformType platform = new PlatformType() {
             @NotNull
             @Override
@@ -84,6 +84,7 @@ public final class XPathTest {
             .withJoiner(Joiner.OR)
             .build();
 
+        // When & Then
         LogUtil.println(CompoundAttribute.empty());
         LogUtil.println(CompoundAttribute.forClass("TC"));
         LogUtil.println(attribute);
@@ -93,5 +94,39 @@ public final class XPathTest {
         LogUtil.println(attrs.hasText("test-text"));
         LogUtil.println(attrs.containsText("test-text"));
         LogUtil.println(attrs.isEnabled(true));
+    }
+
+    @Test
+    public void test_attributeBlockCreation_shouldWork() {
+        // Setup
+        PlatformType platform = new PlatformType() {
+            @NotNull
+            @Override
+            public String value() {
+                return "value";
+            }
+        };
+
+        Attributes attrs = Attributes.of(platform);
+
+        AttributeBlock a1 = AttributeBlock.builder()
+            .addAttribute(attrs.atIndex(0))
+            .addAttribute(attrs.containsID("test-id"))
+            .build();
+
+        AttributeBlock a2 = AttributeBlock.builder()
+            .addAttribute(attrs.hasText("text1").not())
+            .build();
+
+        AttributeBlock a3 = AttributeBlock.builder()
+            .addAttribute(attrs.isEditable(true).not())
+            .addAttribute(a1)
+            .addAttribute(a2)
+            .build();
+
+        // When & Then
+        LogUtil.println(a1);
+        LogUtil.println(a2);
+        LogUtil.println(a3);
     }
 }

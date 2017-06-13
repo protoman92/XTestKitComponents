@@ -10,16 +10,119 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
+import java.util.stream.Collectors;
 
 /**
  * This class represents a block of one or more {@link Attribute}, wrapped
  * within square brackets.
  */
-public final class AttributeBlock {
-    @NotNull private final List<Attribute<?>> ATTRIBUTES;
+public final class AttributeBlock implements AttributeType {
+    /**
+     * Get {@link Builder} instance.
+     * @return {@link Builder} instance.
+     */
+    @NotNull
+    public static Builder builder() {
+        return new Builder();
+    }
+
+    /**
+     * {@link AttributeBlock} with a single {@link AttributeType}.
+     * @param attribute {@link AttributeType} instance.
+     * @return {@link AttributeBlock} instance.
+     * @see Builder#addAttribute(AttributeType)
+     * @see Builder#build()
+     * @see #builder()
+     */
+    @NotNull
+    public static AttributeBlock single(@NotNull AttributeType attribute) {
+        return builder().addAttribute(attribute).build();
+    }
+
+    @NotNull private final Collection<AttributeType> ATTRIBUTES;
+    @NotNull private Joiner joiner;
 
     private AttributeBlock() {
         ATTRIBUTES = new ArrayList<>();
+        joiner = Joiner.OR;
+    }
+
+    @NotNull
+    @Override
+    public String toString() {
+        return fullAttribute();
+    }
+
+    /**
+     * Get {@link #ATTRIBUTES}.
+     * @return {@link List} of {@link AttributeType}.
+     * @see #ATTRIBUTES
+     */
+    @NotNull
+    public Collection<AttributeType> attributes() {
+        return Collections.unmodifiableCollection(ATTRIBUTES);
+    }
+
+    /**
+     * Override this method to provide default implementation.
+     * @return {@link Wrapper} instance.
+     * @see AttributeType#wrapper()
+     * @see Wrapper#BASIC
+     * @see #wrapper
+     */
+    @NotNull
+    @Override
+    public Wrapper wrapper() {
+        return Wrapper.BASIC;
+    }
+
+    /**
+     * Override this method to provide default implementation.
+     * @return {@link Joiner} instance.
+     * @see AttributeType#joiner()
+     * @see #joiner
+     */
+    @NotNull
+    @Override
+    public Joiner joiner() {
+        return joiner;
+    }
+
+    /**
+     * Override this method to provide default implementation.
+     * @param joiner {@link Joiner} instance.
+     * @return {@link AttributeBlock} instance.
+     * @see AttributeType#withJoiner(Joiner)
+     * @see Builder#withBlock(AttributeBlock)
+     * @see Builder#withJoiner(Joiner)
+     * @see Builder#build()
+     * @see #builder()
+     */
+    @NotNull
+    @Override
+    public AttributeBlock withJoiner(@NotNull Joiner joiner) {
+        return builder().withBlock(this).withJoiner(joiner).build();
+    }
+
+    /**
+     * Override this method to provide default implementation.
+     * @return {@link String} value.
+     * @see AttributeType#baseAttribute()
+     * @see AttributeType#fullAttribute()
+     * @see Joiner#symbol()
+     * @see #joiner()
+     */
+    @NotNull
+    @Override
+    public String baseAttribute() {
+        Joiner joiner = joiner();
+        String joinerSymbol = String.format(" %s ", joiner.symbol());
+
+        List<String> attrs = attributes().stream()
+            .map(AttributeType::fullAttribute)
+            .collect(Collectors.toList());
+
+        return String.join(joinerSymbol, attrs);
     }
 
     /**
@@ -34,38 +137,79 @@ public final class AttributeBlock {
 
         /**
          * Add {@link Attribute} to {@link #ATTRIBUTES}.
-         * @param attribute {@link Attribute} instance.
+         * @param attribute {@link AttributeType} instance.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Attribute<?> attribute) {
+        public Builder addAttribute(@NotNull AttributeType attribute) {
             BLOCK.ATTRIBUTES.add(attribute);
             return this;
         }
 
         /**
          * Add {@link Attribute} to {@link #ATTRIBUTES}.
-         * @param attrs {@link Collection} of {@link Attribute}.
+         * @param attrs {@link Collection} of {@link AttributeType}.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Collection<Attribute<?>> attrs) {
+        public Builder addAttribute(@NotNull Collection<AttributeType> attrs) {
             BLOCK.ATTRIBUTES.addAll(attrs);
             return this;
         }
 
         /**
          * Add {@link Attribute} to {@link #ATTRIBUTES}.
-         * @param attrs Vararg of {@link Attribute} instances.
+         * @param attrs Vararg of {@link AttributeType} instances.
          * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Attribute<?>...attrs) {
+        public Builder addAttribute(@NotNull AttributeType...attrs) {
             Collections.addAll(BLOCK.ATTRIBUTES, attrs);
             return this;
+        }
+
+        /**
+         * Replace {@link #ATTRIBUTES} with new {@link AttributeType}.
+         * @param attrs {@link Collection} of {@link AttributeType}.
+         * @return {@link Builder} instance.
+         * @see #addAttribute(Collection)
+         */
+        @NotNull
+        public Builder withAttribute(@NotNull Collection<AttributeType> attrs) {
+            BLOCK.ATTRIBUTES.clear();
+            return addAttribute(attrs);
+        }
+
+        /**
+         * Set the {@link #joiner} instance.
+         * @param joiner {@link Joiner} instance.
+         * @return {@link Builder} instance.
+         * @see #joiner
+         */
+        @NotNull
+        public Builder withJoiner(@NotNull Joiner joiner) {
+            BLOCK.joiner = joiner;
+            return this;
+        }
+
+        /**
+         * Copy properties from another {@link AttributeBlock}.
+         * @param block {@link AttributeBlock} instance.
+         * @return {@link Builder} instance.
+         * @see AttributeBlock#attributes()
+         * @see AttributeBlock#joiner()
+         * @see AttributeBlock#wrapper()
+         * @see #withAttribute(Collection)
+         * @see #withJoiner(Joiner)
+         */
+        @NotNull
+        public Builder withBlock(@NotNull AttributeBlock block) {
+            return this
+                .withAttribute(block.attributes())
+                .withJoiner(block.joiner());
         }
 
         /**

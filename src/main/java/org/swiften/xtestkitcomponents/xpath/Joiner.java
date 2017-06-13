@@ -19,7 +19,7 @@ public enum Joiner implements BaseErrorType {
      * @see #NOT_AVAILABLE
      */
     @NotNull
-    public String word() {
+    public String symbol() {
         switch (this) {
             case AND:
                 return "and";

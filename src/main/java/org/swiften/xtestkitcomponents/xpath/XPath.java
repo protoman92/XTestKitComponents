@@ -54,7 +54,7 @@ public class XPath {
     /**
      * Get a new {@link XPath} by adding extra {@link Attribute} to each
      * {@link CompoundAttribute} within {@link #ATTRIBUTES}.
-     * @param ATTRS {@link Attribute} instance.
+     * @param ATTRS {@link Collection} of {@link AttributeType} instance.
      * @return {@link XPath} instance.
      * @see Builder#addAttribute(Collection)
      * @see Builder#build()
@@ -62,9 +62,9 @@ public class XPath {
      * @see #ATTRIBUTES
      */
     @NotNull
-    public XPath addToEach(@NotNull final Collection<Attribute<?>> ATTRS) {
+    public XPath addToEach(@NotNull final Collection<AttributeType> ATTRS) {
         List<CompoundAttribute> attributes = ATTRIBUTES.stream()
-            .map(a -> a.addAttributes(ATTRS))
+            .map(a -> a.addAttribute(ATTRS))
             .collect(Collectors.toList());
 
         return builder().addAttribute(attributes).build();
@@ -72,13 +72,13 @@ public class XPath {
 
     /**
      * Same as above, but uses a varargs of {@link Attribute}.
-     * @param attrs {@link Attribute} instance.
+     * @param attrs Varargs of {@link AttributeType} instance.
      * @return {@link XPath} instance.
      * @see CollectionUtil#asList(Object[])
      * @see #addToEach(Collection)
      */
     @NotNull
-    public XPath addToEach(@NotNull Attribute<?>...attrs) {
+    public XPath addToEach(@NotNull AttributeType...attrs) {
         return addToEach(CollectionUtil.asList(attrs));
     }
 
@@ -206,9 +206,8 @@ public class XPath {
         @NonNull
         public Builder followingSibling(@NotNull CompoundAttribute target,
                                         @NonNull CompoundAttribute sibling) {
-            Collection<CompoundAttribute> attrs = CompoundAttribute
-                .followingSibling(target, sibling);
-
+            Collection<CompoundAttribute> attrs;
+            attrs = CompoundAttribute.followingSibling(target, sibling);
             return addAttribute(attrs);
         }
 
