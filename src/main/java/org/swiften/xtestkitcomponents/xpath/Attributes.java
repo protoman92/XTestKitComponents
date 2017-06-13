@@ -5,6 +5,7 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
+import org.swiften.xtestkitcomponents.platform.PlatformProviderType;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 import org.swiften.xtestkitcomponents.property.base.IgnoreCaseType;
 
@@ -26,6 +27,18 @@ public final class Attributes {
     @NotNull
     public static Attributes of(@NotNull PlatformType platform) {
         return new Attributes(platform);
+    }
+
+    /**
+     * Get a new {@link Attributes} instance.
+     * @param type {@link PlatformProviderType} instance.
+     * @return {@link Attributes} instance.
+     * @see PlatformProviderType#platform()
+     * @see #of(PlatformType)
+     */
+    @NotNull
+    public static Attributes of(@NotNull PlatformProviderType type) {
+        return of(type.platform());
     }
 
     @NotNull private final PlatformType PLATFORM;

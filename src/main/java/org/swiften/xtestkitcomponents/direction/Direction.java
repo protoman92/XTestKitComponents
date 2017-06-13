@@ -34,6 +34,20 @@ public enum Direction {
     }
 
     /**
+     * Get {@link #LEFT_RIGHT} or {@link #RIGHT_LEFT}, depending on whether
+     * left-right is true.
+     * @param leftRight {@link Boolean} value. If this is true, return
+     *                  {@link #LEFT_RIGHT}, and {@link #RIGHT_LEFT} otherwise.
+     * @return {@link Direction} instance.
+     * @see #LEFT_RIGHT
+     * @see #RIGHT_LEFT
+     */
+    @NotNull
+    public static Direction horizontal(boolean leftRight) {
+        return leftRight ? LEFT_RIGHT : RIGHT_LEFT;
+    }
+
+    /**
      * Get a random vertical {@link Direction}.
      * @return {@link Direction} instance.
      * @see CollectionUtil#randomElement(Object[])

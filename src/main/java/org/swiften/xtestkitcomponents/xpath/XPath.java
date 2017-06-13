@@ -139,17 +139,30 @@ public class XPath {
         }
 
         /**
-         * Add {@link Attribute} to {@link #ATTRIBUTES} by wrapping it within
-         * {@link CompoundAttribute}.
-         * @param attribute {@link Attribute} instance.
+         * Add {@link AttributeType} to {@link #ATTRIBUTES} by wrapping it
+         * within {@link CompoundAttribute}.
+         * @param attribute {@link AttributeType} instance.
          * @return {@link Builder} instance.
-         * @see CompoundAttribute#single(Attribute)
+         * @see CompoundAttribute#single(AttributeType)
          * @see #addAttribute(CompoundAttribute)
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull Attribute attribute) {
+        public Builder addAttribute(@NotNull AttributeType attribute) {
             return addAttribute(CompoundAttribute.single(attribute));
+        }
+
+        /**
+         * Add {@link AttributeBlock} to {@link #ATTRIBUTES} by wrapping it
+         * within {@link CompoundAttribute}.
+         * @param block {@link AttributeBlock} instance.
+         * @return {@link Builder} instance.
+         * @see CompoundAttribute#single(AttributeBlock)
+         * @see #addAttribute(CompoundAttribute)
+         */
+        @NotNull
+        public Builder addAttribute(@NotNull AttributeBlock block) {
+            return addAttribute(CompoundAttribute.single(block));
         }
 
         /**

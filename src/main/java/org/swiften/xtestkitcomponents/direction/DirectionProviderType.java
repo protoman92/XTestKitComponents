@@ -11,7 +11,7 @@ import org.jetbrains.annotations.NotNull;
  * swipes.
  */
 @FunctionalInterface
-public interface DirectionContainerType {
+public interface DirectionProviderType {
     /**
      * Get the associated {@link Direction}.
      * @return {@link Direction} instance.
