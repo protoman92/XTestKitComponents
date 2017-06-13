@@ -114,7 +114,7 @@ public class XPath {
         /**
          * Replace {@link #ATTRIBUTES} with new {@link Attribute} instances.
          * @param xPath {@link XPath} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see XPath#compoundAttributes()
          * @see #ATTRIBUTES
          */
@@ -128,7 +128,7 @@ public class XPath {
         /**
          * Add {@link #ATTRIBUTES} from another {@link XPath} instance.
          * @param xPath {@link XPath} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see XPath#compoundAttributes()
          * @see #ATTRIBUTES
          */
@@ -142,7 +142,7 @@ public class XPath {
          * Add {@link Attribute} to {@link #ATTRIBUTES} by wrapping it within
          * {@link CompoundAttribute}.
          * @param attribute {@link Attribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see CompoundAttribute#single(Attribute)
          * @see #addAttribute(CompoundAttribute)
          * @see #ATTRIBUTES
@@ -155,7 +155,7 @@ public class XPath {
         /**
          * Add {@link CompoundAttribute} to {@link #ATTRIBUTES}.
          * @param attribute {@link CompoundAttribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -167,7 +167,7 @@ public class XPath {
         /**
          * Add {@link CompoundAttribute} to {@link #ATTRIBUTES}.
          * @param attributes {@link Collection} of {@link CompoundAttribute}.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -181,7 +181,7 @@ public class XPath {
          * {@link CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)}.
          * @param target {@link CompoundAttribute} instance.
          * @param sibling {@link CompoundAttribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)
          * @see #addAttribute(CompoundAttribute)
          */
@@ -199,7 +199,7 @@ public class XPath {
          * {@link CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)}.
          * @param target {@link CompoundAttribute} instance.
          * @param sibling {@link CompoundAttribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)
          * @see #addAttribute(CompoundAttribute)
          */

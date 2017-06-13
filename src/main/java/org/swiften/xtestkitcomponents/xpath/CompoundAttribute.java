@@ -58,8 +58,21 @@ public final class CompoundAttribute {
      * @see #builder()
      */
     @NotNull
-    public static CompoundAttribute single(@NotNull Attribute attribute) {
+    public static CompoundAttribute single(@NotNull Attribute<?> attribute) {
         return builder().addAttribute(attribute).build();
+    }
+
+    /**
+     * {@link CompoundAttribute} with multiple {@link Attribute}.
+     * @param attributes Varargs of {@link Attribute} instance.
+     * @return {@link CompoundAttribute} instance.
+     * @see Builder#addAttribute(Attribute[])
+     * @see Builder#build()
+     * @see #builder()
+     */
+    @NotNull
+    public static CompoundAttribute multiple(@NotNull Attribute<?>...attributes) {
+        return builder().addAttribute(attributes).build();
     }
 
     /**
@@ -393,7 +406,7 @@ public final class CompoundAttribute {
         /**
          * Add {@link Attribute} to {@link #ATTRIBUTES}.
          * @param attribute {@link Attribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -405,7 +418,7 @@ public final class CompoundAttribute {
         /**
          * Add {@link Attribute} to {@link #ATTRIBUTES}.
          * @param attributes {@link Collection} of {@link Attribute}.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -415,9 +428,21 @@ public final class CompoundAttribute {
         }
 
         /**
+         * Add {@link Attribute} to {@link #ATTRIBUTES}.
+         * @param attributes Varargs of {@link Attribute}.
+         * @return {@link Builder} instance.
+         * @see #ATTRIBUTES
+         */
+        @NotNull
+        public Builder addAttribute(@NotNull Attribute<?>...attributes) {
+            Collections.addAll(ATTRIBUTE.ATTRIBUTES, attributes);
+            return this;
+        }
+
+        /**
          * Replace all {@link Attribute} within {@link #ATTRIBUTES}.
          * @param attributes {@link Collection} of {@link Attribute}.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -430,7 +455,7 @@ public final class CompoundAttribute {
         /**
          * Set the {@link #path} instance.
          * @param mode {@link Path} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #path
          */
         @NotNull
@@ -442,7 +467,7 @@ public final class CompoundAttribute {
         /**
          * Set the {@link #axis} instance.
          * @param axis {@link Axis} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #axis
          */
         @NotNull
@@ -454,7 +479,7 @@ public final class CompoundAttribute {
         /**
          * Set {@link #className}.
          * @param clsName {@link String} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #className
          */
         @NotNull
@@ -478,7 +503,7 @@ public final class CompoundAttribute {
         /**
          * Replace all properties with those of another {@link CompoundAttribute}.
          * @param attribute {@link CompoundAttribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see CompoundAttribute#attributes()
          * @see CompoundAttribute#axis()
          * @see CompoundAttribute#className()

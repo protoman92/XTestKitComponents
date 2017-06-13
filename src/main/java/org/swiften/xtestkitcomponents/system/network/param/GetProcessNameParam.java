@@ -67,7 +67,7 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
         /**
          * Set the {@link #pid} value.
          * @param pid {@link String} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #pid
          */
         @NotNull
@@ -79,7 +79,7 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
         /**
          * Set the {@link #pid} value.
          * @param param {@link PIDIdentifiableType} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see PIDIdentifiableType#pid()
          * @see #withPID(String)
          */
@@ -91,7 +91,7 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
         /**
          * Set the {@link #retries} value.
          * @param retries {@link Integer} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #retries
          */
         @NotNull
@@ -103,7 +103,7 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
         /**
          * Set the {@link #retries} value.
          * @param param {@link RetryType} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see RetryType#retries()
          * @see #withRetries(int)
          */

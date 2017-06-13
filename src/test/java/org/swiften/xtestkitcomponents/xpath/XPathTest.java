@@ -35,14 +35,6 @@ public final class XPathTest {
             .addAttribute(attrs.isClickable(true))
             .build();
 
-        CompoundAttribute cAttr1 = CompoundAttribute.builder()
-            .addAttribute(attrs.containsText("text1"))
-            .addAttribute(attrs.ofClass("class1").not())
-            .addAttribute(attrs.isEditable(true))
-            .build()
-            .withClass("TC")
-            .withIndex(1);
-
         XPath xPath4 = XPath.builder()
             .addAttribute(CompoundAttribute.followingSibling(
                 CompoundAttribute.builder()
@@ -89,7 +81,7 @@ public final class XPathTest {
             .addAttribute("id")
             .withFormatible(new Attributes.ContainsString() {})
             .withValue("test-id")
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .build();
 
         LogUtil.println(CompoundAttribute.empty());

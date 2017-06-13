@@ -50,9 +50,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#indexAttribute()
      * @see #platform()
      */
@@ -61,7 +61,7 @@ public final class Attributes {
         return Attribute.<Integer>builder()
             .addAttribute(platform().indexAttribute())
             .withFormatible(new AtIndex() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(index)
             .build();
     }
@@ -72,9 +72,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#instanceAttribute()
      * @see #platform()
      */
@@ -83,7 +83,7 @@ public final class Attributes {
         return Attribute.<Integer>builder()
             .addAttribute(platform().instanceAttribute())
             .withFormatible(new OfInstance() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(instance)
             .build();
     }
@@ -94,9 +94,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#classAttribute()
      * @see #platform()
      */
@@ -105,7 +105,7 @@ public final class Attributes {
         return Attribute.<String>builder()
             .addAttribute(platform().classAttribute())
             .withFormatible(new OfClass() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(className)
             .build();
     }
@@ -116,9 +116,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#idAttribute()
      * @see #platform()
      */
@@ -126,7 +126,7 @@ public final class Attributes {
     public Attribute containsID(@NotNull String id) {
         return Attribute.<String>builder()
             .addAttribute(platform().idAttribute())
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withFormatible(new ContainsID() {})
             .withValue(id)
             .build();
@@ -138,9 +138,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#textAttribute()
      * @see #platform()
      */
@@ -149,7 +149,7 @@ public final class Attributes {
         return Attribute.<String>builder()
             .addAttribute(platform().textAttribute())
             .withFormatible(new HasText() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(text)
             .build();
     }
@@ -160,9 +160,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#textAttribute()
      * @see #platform()
      */
@@ -171,7 +171,7 @@ public final class Attributes {
         return Attribute.<String>builder()
             .addAttribute(platform().textAttribute())
             .withFormatible(new ContainsText() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(text)
             .build();
     }
@@ -182,9 +182,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#enabledAttribute()
      * @see #platform()
      */
@@ -193,7 +193,7 @@ public final class Attributes {
         return Attribute.<Boolean>builder()
             .addAttribute(platform().enabledAttribute())
             .withFormatible(new Enabled() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(enabled)
             .build();
     }
@@ -204,9 +204,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#clickableAttribute()
      * @see #platform()
      */
@@ -215,7 +215,7 @@ public final class Attributes {
         return Attribute.<Boolean>builder()
             .addAttribute(platform().clickableAttribute())
             .withFormatible(new Clickable() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(clickable)
             .build();
     }
@@ -226,9 +226,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
-     * @see Attribute.Builder#withJoiner(Attribute.Joiner)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#editableAttribute()
      * @see #platform()
      */
@@ -237,7 +237,7 @@ public final class Attributes {
         return Attribute.<Boolean>builder()
             .addAttribute(platform().editableAttribute())
             .withFormatible(new Editable() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(editable)
             .build();
     }
@@ -248,9 +248,9 @@ public final class Attributes {
      * @return {@link Attribute} instance.
      * @see Attribute.Builder#addAttribute(Collection)
      * @see Attribute.Builder#withFormatible(Attribute.Formatible)
+     * @see Attribute.Builder#withJoiner(Joiner)
      * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Builder#withValue(Object)
-     * @see Attribute.Joiner#OR
+     * @see Joiner#OR
      * @see PlatformType#focusedAttribute()
      * @see #platform()
      */
@@ -259,7 +259,7 @@ public final class Attributes {
         return Attribute.<Boolean>builder()
             .addAttribute(platform().focusedAttribute())
             .withFormatible(new Focused() {})
-            .withJoiner(Attribute.Joiner.OR)
+            .withJoiner(Joiner.OR)
             .withValue(FOCUSED)
             .build();
     }

@@ -68,7 +68,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         /**
          * Set the {@link #port} value.
          * @param port {@link Integer} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          */
         @NotNull
         public Builder withPort(int port) {
@@ -79,7 +79,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         /**
          * Set the {@link #maxPort} value.
          * @param maxPort {@link Integer} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          */
         @NotNull
         public Builder withMaxPort(int maxPort) {
@@ -90,7 +90,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         /**
          * Set the {@link #portStep} value.
          * @param step {@link Integer} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          */
         @NotNull
         public Builder withPortStep(int step) {
@@ -101,7 +101,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         /**
          * Set the {@link #retries} value.
          * @param retries {@link Integer} value.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          */
         @NotNull
         public Builder withRetries(int retries) {
@@ -112,7 +112,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         /**
          * Set the {@link #retries} value.
          * @param type {@link RetryType} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #withRetries(int)
          */
         @NotNull

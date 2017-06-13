@@ -19,76 +19,14 @@ import java.util.stream.Collectors;
  * This class is used to deal with multiple attributes being used to describe
  * the same thing.
  */
-public final class Attribute<T> implements BaseErrorType {
+public final class Attribute<T> implements AttributeType, BaseErrorType {
     /**
      * Get {@link Builder} instance.
-     *
      * @return {@link Builder} instance.
      */
     @NotNull
     public static <T> Builder<T> builder() {
         return new Builder<>();
-    }
-
-    /**
-     * This {@link Enum} contains formatter that encloses the entire
-     * {@link Attribute}, i.e. {@link Attribute#baseAttribute()}. This
-     * is different from {@link Formatible}, which is applied to each attribute
-     * in {@link Attribute#ATTRIBUTES}.
-     */
-    public enum Wrapper implements BaseErrorType {
-        NOT,
-        NONE;
-
-        /**
-         * Get the wrapper format to apply to {@link Attribute#baseAttribute()}.
-         *
-         * @return {@link String} value.
-         * @see #NONE
-         * @see #NOT
-         * @see #NOT_AVAILABLE
-         */
-        @NotNull
-        public String wrapperFormat() {
-            switch (this) {
-                case NONE:
-                    return "%s";
-
-                case NOT:
-                    return "not(%s)";
-
-                default:
-                    throw new RuntimeException(NOT_AVAILABLE);
-            }
-        }
-    }
-
-    public enum Joiner implements BaseErrorType {
-        AND,
-        OR;
-
-        /**
-         * Get the joiner {@link String} that will be used to join attributes
-         * in {@link Attribute#ATTRIBUTES}.
-         *
-         * @return {@link String} value.
-         * @see #AND
-         * @see #OR
-         * @see #NOT_AVAILABLE
-         */
-        @NotNull
-        public String symbol() {
-            switch (this) {
-                case AND:
-                    return "and";
-
-                case OR:
-                    return "or";
-
-                default:
-                    throw new RuntimeException(NOT_AVAILABLE);
-            }
-        }
     }
 
     @NotNull private final List<String> ATTRIBUTES;
@@ -101,7 +39,7 @@ public final class Attribute<T> implements BaseErrorType {
         ATTRIBUTES = new ArrayList<>();
         formatible = new Formatible<T>() {};
         joiner = Joiner.AND;
-        wrapper = Wrapper.NONE;
+        wrapper = Wrapper.BASIC;
     }
 
     @NotNull
@@ -112,7 +50,6 @@ public final class Attribute<T> implements BaseErrorType {
 
     /**
      * Get {@link #ATTRIBUTES}.
-     *
      * @return {@link List} of {@link String}.
      * @see Collections#unmodifiableList(List)
      * @see #ATTRIBUTES
@@ -124,18 +61,17 @@ public final class Attribute<T> implements BaseErrorType {
 
     /**
      * Get {@link #joiner}.
-     *
      * @return {@link Joiner} instance.
      * @see #joiner
      */
     @NotNull
+    @Override
     public Joiner joiner() {
         return joiner;
     }
 
     /**
      * Get {@link #wrapper}.
-     *
      * @return {@link Wrapper} instance.
      * @see #wrapper
      */
@@ -172,16 +108,18 @@ public final class Attribute<T> implements BaseErrorType {
     }
 
     /**
-     * Get the base attribute based on {@link #ATTRIBUTES}.
+     * Override this method to provide default implementation.
      * @return {@link String} value.
+     * @see AttributeType#baseAttribute() 
      * @see Formatible#stringFormat(Object)
-     * @see Joiner#symbol()
+     * @see Joiner#word()
      * @see #attributes()
      * @see #formatible()
      * @see #value()
      */
     @NotNull
-    private String baseAttribute() {
+    @Override
+    public String baseAttribute() {
         Formatible<T> formatible = formatible();
         Joiner joiner = joiner();
         T value = value();
@@ -191,39 +129,50 @@ public final class Attribute<T> implements BaseErrorType {
             .map(a -> String.format(FORMAT, a))
             .collect(Collectors.toList());
 
-        String joined = String.format(" %s ", joiner.symbol());
+        String joined = String.format(" %s ", joiner.word());
         return String.join(joined, attributes);
     }
 
     /**
-     * Get the wrapped {@link #baseAttribute()}.
-     * @return {@link String} value.
-     * @see Wrapper#wrappedAttribute()
-     * @see #baseAttribute()
-     * @see #wrapper()
+     * Override this method to provide default implementation.
+     * @param joiner {@link Joiner} instance.
+     * @return {@link Attribute} instance.
+     * @see AttributeType#withJoiner(Joiner)
+     * @see Builder#build()
+     * @see Builder#withAttribute(Attribute)
+     * @see Builder#withJoiner(Joiner)
+     * @see #builder()
      */
     @NotNull
-    private String wrappedAttribute() {
-        Wrapper wrapper = wrapper();
-        String wrapperFormat = wrapper.wrapperFormat();
-        String base = baseAttribute();
-        return String.format(wrapperFormat, base);
+    @Override
+    public Attribute<T> withJoiner(@NotNull Joiner joiner) {
+        return Attribute.<T>builder()
+            .withAttribute(this)
+            .withJoiner(joiner)
+            .build();
     }
 
     /**
-     * Get the full attribute.
-     * @return {@link String} value.
-     * @see ObjectUtil#nonNull(Object)
-     * @see #wrappedAttribute()
+     * Override this method to provide default implementation.
+     * @param wrapper {@link Wrapper} instance.
+     * @return {@link Attribute} instance.
+     * @see AttributeType#withWrapper(Wrapper)
+     * @see Builder#build()
+     * @see Builder#withAttribute(Attribute)
+     * @see Builder#withWrapper(Wrapper)
+     * @see #builder()
      */
     @NotNull
-    public String fullAttribute() {
-        String wrapped = wrappedAttribute();
-        return String.format("[%s]", wrapped);
+    @Override
+    public Attribute<T> withWrapper(@NotNull Wrapper wrapper) {
+        return Attribute.<T>builder()
+            .withAttribute(this)
+            .withWrapper(wrapper)
+            .build();
     }
 
     /**
-     * Get a new {@link Attribute} instance with a different value.
+     * Get a new {@link Attribute} instance with a different {@link #value}.
      * @param value {@link T} instance.
      * @return {@link Attribute} instance.
      * @see Builder#build()
@@ -242,7 +191,6 @@ public final class Attribute<T> implements BaseErrorType {
     /**
      * Get the antithesis of the current {@link Attribute}, using
      * {@link Wrapper#NOT}.
-     *
      * @return {@link Attribute} instance.
      * @see Builder#withAttribute(Attribute)
      * @see Builder#withWrapper(Wrapper)
@@ -271,7 +219,7 @@ public final class Attribute<T> implements BaseErrorType {
         /**
          * Add an attribute to {@link #ATTRIBUTES}.
          * @param attribute The attribute to be added.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -282,9 +230,8 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Add attributes to {@link #ATTRIBUTES}.
-         *
          * @param attributes {@link Collection} of {@link String}.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -295,9 +242,8 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Replace all attributes within {@link #ATTRIBUTES}.
-         *
          * @param attributes {@link Collection} of {@link String}.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #ATTRIBUTES
          */
         @NotNull
@@ -308,11 +254,10 @@ public final class Attribute<T> implements BaseErrorType {
         }
 
         /**
-         * Set the {@link #joiner} instance. This will be used to decide how
-         * elements are to be searched using {@link #ATTRIBUTES}.
-         *
+         * Set the {@link #joiner} instance. This will be used to join
+         * attributes in {@link #ATTRIBUTES}.
          * @param joiner {@link Joiner} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #joiner
          */
         @NotNull
@@ -324,7 +269,7 @@ public final class Attribute<T> implements BaseErrorType {
         /**
          * Set the {@link #wrapper} instance.
          * @param wrapper {@link Wrapper} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #wrapper
          */
         @NotNull
@@ -335,9 +280,8 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Set the {@link #formatible} instance.
-         *
          * @param formatible {@link Formatible} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #formatible
          */
         @NotNull
@@ -349,7 +293,7 @@ public final class Attribute<T> implements BaseErrorType {
         /**
          * Set the {@link #value} instance.
          * @param value {@link T} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see #value
          */
         @NotNull
@@ -360,9 +304,8 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Replace all properties with those of another {@link Attribute}.
-         *
          * @param attribute {@link Attribute} instance.
-         * @return The current {@link Builder} instance.
+         * @return {@link Builder} instance.
          * @see Attribute#attributes()
          * @see Attribute#formatible()
          * @see Attribute#joiner()
@@ -386,7 +329,6 @@ public final class Attribute<T> implements BaseErrorType {
 
         /**
          * Get {@link #ATTRIBUTE}.
-         *
          * @return {@link Attribute} instance.
          * @see #ATTRIBUTE
          */

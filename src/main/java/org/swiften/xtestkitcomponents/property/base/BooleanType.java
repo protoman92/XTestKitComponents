@@ -8,4 +8,4 @@ package org.swiften.xtestkitcomponents.property.base;
  * This interface is the base for {@link Boolean}-based locator operations.
  */
 @FunctionalInterface
-public interface BooleanType extends AttributeType<Boolean> {}
+public interface BooleanType extends ValueType<Boolean> {}

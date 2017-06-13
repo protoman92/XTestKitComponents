@@ -10,7 +10,7 @@ import org.jetbrains.annotations.NotNull;
  * This protocol is the base for attribute-based locator operations.
  */
 @FunctionalInterface
-public interface AttributeType<T> {
+public interface ValueType<T> {
     /**
      * Get the associated {@link T} value.
      * @return {@link T} value.

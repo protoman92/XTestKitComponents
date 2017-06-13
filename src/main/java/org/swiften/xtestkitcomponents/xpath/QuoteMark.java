@@ -5,7 +5,7 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.property.base.AttributeType;
+import org.swiften.xtestkitcomponents.property.base.ValueType;
 
 import java.util.Optional;
 
@@ -14,7 +14,7 @@ import java.util.Optional;
  * {@link org.swiften.xtestkitcomponents.xpath.Attributes.QuotationFree} to
  * strip quotation marks.
  */
-public enum QuoteMark implements AttributeType<String> {
+public enum QuoteMark implements ValueType<String> {
     SINGLE,
     DOUBLE;
 
@@ -63,11 +63,11 @@ public enum QuoteMark implements AttributeType<String> {
         }
     }
 
-    //region AttributeType
+    //region ValueType
     /**
      * Get the quotation mark to be used.
      * @return {@link String} value.
-     * @see AttributeType#value()
+     * @see ValueType#value()
      */
     @NotNull
     public String value() {
