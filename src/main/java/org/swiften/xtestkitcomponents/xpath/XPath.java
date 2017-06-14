@@ -153,19 +153,6 @@ public class XPath {
         }
 
         /**
-         * Add {@link AttributeBlock} to {@link #ATTRIBUTES} by wrapping it
-         * within {@link CompoundAttribute}.
-         * @param block {@link AttributeBlock} instance.
-         * @return {@link Builder} instance.
-         * @see CompoundAttribute#single(AttributeBlock)
-         * @see #addAttribute(CompoundAttribute)
-         */
-        @NotNull
-        public Builder addAttribute(@NotNull AttributeBlock block) {
-            return addAttribute(CompoundAttribute.single(block));
-        }
-
-        /**
          * Add {@link CompoundAttribute} to {@link #ATTRIBUTES}.
          * @param attribute {@link CompoundAttribute} instance.
          * @return {@link Builder} instance.

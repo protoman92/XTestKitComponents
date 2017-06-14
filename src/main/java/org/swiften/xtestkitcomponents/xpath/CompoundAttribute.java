@@ -8,7 +8,6 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
 import org.swiften.javautilities.object.ObjectUtil;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
 
 import java.util.*;
 import java.util.stream.Collectors;
@@ -50,29 +49,16 @@ public final class CompoundAttribute {
     }
 
     /**
-     * {@link CompoundAttribute} with a single {@link AttributeBlock}.
-     * @param block {@link AttributeBlock} instance.
-     * @return {@link CompoundAttribute} instance.
-     * @see Builder#addAttribute(AttributeBlock)
-     * @see Builder#build()
-     * @see #builder()
-     */
-    @NotNull
-    public static CompoundAttribute single(@NotNull AttributeBlock block) {
-        return builder().addAttribute(block).build();
-    }
-
-    /**
      * {@link CompoundAttribute} with a single {@link AttributeType}.
-     * @param attribute {@link AttributeType} instance.
+     * @param block {@link AttributeType} instance.
      * @return {@link CompoundAttribute} instance.
      * @see Builder#addAttribute(AttributeType)
      * @see Builder#build()
      * @see #builder()
      */
     @NotNull
-    public static CompoundAttribute single(@NotNull AttributeType attribute) {
-        return builder().addAttribute(attribute).build();
+    public static CompoundAttribute single(@NotNull AttributeType block) {
+        return builder().addAttribute(block).build();
     }
 
     /**
@@ -154,7 +140,7 @@ public final class CompoundAttribute {
      * @see #ATTRIBUTES
      */
     @NotNull
-    public Collection<AttributeBlock> attributes() {
+    public Collection<AttributeType> attributes() {
         return Collections.unmodifiableCollection(ATTRIBUTES);
     }
 
@@ -301,14 +287,14 @@ public final class CompoundAttribute {
 
     /**
      * Get a new {@link CompoundAttribute} instance with extra
-     * {@link AttributeBlock}.
-     * @param attrs {@link Collection} of {@link AttributeBlock}.
+     * {@link AttributeType}.
+     * @param attrs {@link Collection} of {@link AttributeType}.
      * @return {@link CompoundAttribute} instance.
      * @see CompoundAttribute.Builder#addAttribute(Collection)
      * @see CompoundAttribute.Builder#withAttribute(CompoundAttribute)
      * @see #builder()
      */
-    public CompoundAttribute addBlock(@NotNull Collection<AttributeBlock> attrs) {
+    public CompoundAttribute addAttribute(@NotNull Collection<AttributeType> attrs) {
         return CompoundAttribute.builder()
             .withAttribute(this)
             .addAttribute(attrs)
@@ -316,40 +302,11 @@ public final class CompoundAttribute {
     }
 
     /**
-     * Get a new {@link CompoundAttribute} instance with extra
-     * {@link AttributeType}.
-     * @param attrs {@link Collection} of {@link AttributeType}.
-     * @return {@link CompoundAttribute} instance.
-     * @see AttributeBlock#single(AttributeType)
-     * @see #addBlock(Collection)
-     */
-    @NotNull
-    public CompoundAttribute addAttribute(@NotNull Collection<AttributeType> attrs) {
-        List<AttributeBlock> blocks = attrs.stream()
-            .map(AttributeBlock::single)
-            .collect(Collectors.toList());
-
-        return addBlock(blocks);
-    }
-
-    /**
-     * Same as above, but uses a varargs of {@link Attribute}.
-     * @param attrs Varargs of {@link AttributeBlock}.
-     * @return {@link CompoundAttribute} instance.
-     * @see CollectionUtil#asList(Object[])
-     * @see #addBlock(Collection)
-     */
-    @NotNull
-    public CompoundAttribute addBlock(@NotNull AttributeBlock...attrs) {
-        return addAttribute(CollectionUtil.asList(attrs));
-    }
-
-    /**
      * Same as above, but uses a varargs of {@link AttributeType}.
      * @param attrs Varargs of {@link AttributeType}.
      * @return {@link CompoundAttribute} instance.
      * @see CollectionUtil#asList(Object[])
-     * @see #addBlock(Collection)
+     * @see #addAttribute(Collection)
      */
     @NotNull
     public CompoundAttribute addAttribute(@NotNull AttributeType...attrs) {
@@ -367,79 +324,71 @@ public final class CompoundAttribute {
         }
 
         /**
-         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
-         * @param attribute {@link AttributeBlock} instance.
-         * @return {@link Builder} instance.
-         * @see #ATTRIBUTES
-         */
-        @NotNull
-        public Builder addAttribute(@NotNull AttributeBlock attribute) {
-            ATTRIBUTE.ATTRIBUTES.add(attribute);
-            return this;
-        }
-
-        /**
          * Add {@link AttributeType} to {@link #ATTRIBUTES}.
          * @param attribute {@link AttributeType} instance.
          * @return {@link Builder} instance.
          * @see AttributeBlock#single(AttributeType)
-         * @see #addAttribute(AttributeBlock)
+         * @see #ATTRIBUTES
          */
         @NotNull
         public Builder addAttribute(@NotNull AttributeType attribute) {
-            AttributeBlock attr = AttributeBlock.single(attribute);
-            return addAttribute(attr);
-        }
+            AttributeBlock block;
 
-        /**
-         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
-         * @param attributes {@link Collection} of {@link AttributeBlock}.
-         * @return {@link Builder} instance.
-         * @see #ATTRIBUTES
-         */
-        @NotNull
-        public Builder addAttribute(@NotNull Collection<AttributeBlock> attributes) {
-            ATTRIBUTE.ATTRIBUTES.addAll(attributes);
-            return this;
-        }
+            if (attribute instanceof AttributeBlock) {
+                block = (AttributeBlock)attribute;
+            } else {
+                block = AttributeBlock.single(attribute);
+            }
 
-        /**
-         * Add {@link AttributeBlock} to {@link #ATTRIBUTES}.
-         * @param attributes Varargs of {@link Attribute}.
-         * @return {@link Builder} instance.
-         * @see #ATTRIBUTES
-         */
-        @NotNull
-        public Builder addAttribute(@NotNull AttributeBlock...attributes) {
-            Collections.addAll(ATTRIBUTE.ATTRIBUTES, attributes);
+            ATTRIBUTE.ATTRIBUTES.add(block);
             return this;
         }
 
         /**
          * Add {@link AttributeType} to {@link #ATTRIBUTES}.
-         * @param attributes {@link AttributeType} instance.
+         * @param attributes {@link Collection} of {@link AttributeType}.
          * @return {@link Builder} instance.
          * @see AttributeBlock#single(AttributeType)
-         * @see #addAttribute(AttributeBlock...)
+         * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addAttribute(@NotNull AttributeType...attributes) {
-            List<AttributeBlock> attrs = Arrays.stream(attributes)
+        public Builder addAttribute(@NotNull Collection<AttributeType> attributes) {
+            Collection<AttributeBlock> block1 = attributes.stream()
+                .filter(AttributeBlock.class::isInstance)
+                .map(AttributeBlock.class::cast)
+                .collect(Collectors.toList());
+
+            Collection<AttributeBlock> block2 = attributes.stream()
+                .filter(a -> !AttributeBlock.class.isInstance(a))
                 .map(AttributeBlock::single)
                 .collect(Collectors.toList());
 
-            return addAttribute(attrs);
+            ATTRIBUTE.ATTRIBUTES.addAll(block1);
+            ATTRIBUTE.ATTRIBUTES.addAll(block2);
+            return this;
         }
 
         /**
-         * Replace all {@link AttributeBlock} within {@link #ATTRIBUTES}.
-         * @param attributes {@link Collection} of {@link AttributeBlock}.
+         * Add {@link AttributeType} to {@link #ATTRIBUTES}.
+         * @param attributes Varargs of {@link AttributeType}.
+         * @return {@link Builder} instance.
+         * @see CollectionUtil#asList(Object[])
+         * @see #addAttribute(Collection)
+         */
+        @NotNull
+        public Builder addAttribute(@NotNull AttributeType...attributes) {
+            return addAttribute(CollectionUtil.asList(attributes));
+        }
+
+        /**
+         * Replace all {@link AttributeType} within {@link #ATTRIBUTES}.
+         * @param attributes {@link Collection} of {@link AttributeType}.
          * @return {@link Builder} instance.
          * @see #addAttribute(Collection)
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder withAttribute(@NotNull Collection<AttributeBlock> attributes) {
+        public Builder withAttribute(@NotNull Collection<AttributeType> attributes) {
             ATTRIBUTE.ATTRIBUTES.clear();
             return addAttribute(attributes);
         }
