@@ -119,7 +119,8 @@ public class ProcessRunner {
                     THIS.execute(ARGS, a::onNext, a::onError, a::onComplete)
                 ).start();
             }, BackpressureStrategy.BUFFER)
-            .serialize();
+            .serialize()
+            .doOnError(e -> LogUtil.printft("Error %s with %s", e, ARGS));
     }
 
     /**
