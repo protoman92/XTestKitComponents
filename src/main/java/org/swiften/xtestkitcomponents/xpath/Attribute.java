@@ -94,17 +94,15 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
     /**
      * Get {@link #value}.
      * @return {@link Object} instance.
-     * @see ObjectUtil#nonNull(Object)
+     * @see ObjectUtil#requireNotNull(Object, String)
      * @see #value
      * @see #NOT_AVAILABLE
      */
     @NotNull
+    @SuppressWarnings("ConstantConditions")
     public T value() {
-        if (ObjectUtil.nonNull(value)) {
-            return value;
-        } else {
-            throw new RuntimeException(NOT_AVAILABLE);
-        }
+        ObjectUtil.requireNotNull(value, NOT_AVAILABLE);
+        return value;
     }
 
     /**
