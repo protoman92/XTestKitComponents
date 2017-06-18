@@ -11,7 +11,7 @@ import org.swiften.xtestkitcomponents.common.BaseErrorType;
  * Use this {@link Enum} with {@link WebElement#getLocation()} and
  * {@link WebElement#getSize()}.
  */
-public enum RLPosition implements BaseErrorType, RLPositionType {
+public enum RLPoint implements BaseErrorType, RLPositionType {
     MIN,
     MID,
     MAX;
