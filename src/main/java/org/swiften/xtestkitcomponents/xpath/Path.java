@@ -12,7 +12,8 @@ import org.swiften.xtestkitcomponents.common.BaseErrorType;
  */
 public enum Path implements BaseErrorType {
     ANY,
-    DIRECT;
+    DIRECT,
+    NONE;
 
     /**
      * Get the symbol {@link String} to append to the start of the
@@ -20,6 +21,7 @@ public enum Path implements BaseErrorType {
      * @return {@link String} value.
      * @see #ANY
      * @see #DIRECT
+     * @see #NONE
      * @see #NOT_AVAILABLE
      */
     @NotNull
@@ -30,6 +32,9 @@ public enum Path implements BaseErrorType {
 
             case DIRECT:
                 return "/";
+
+            case NONE:
+                return "";
 
             default:
                 throw new RuntimeException(NOT_AVAILABLE);

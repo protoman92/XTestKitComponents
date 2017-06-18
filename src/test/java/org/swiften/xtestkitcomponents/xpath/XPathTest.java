@@ -79,7 +79,7 @@ public final class XPathTest {
 
         Attribute attribute = Attribute.<String>builder()
             .addAttribute("id")
-            .withFormatible(new Attributes.ContainsString() {})
+            .withFormatible(Formatibles.containsString())
             .withValue("test-id")
             .withJoiner(Joiner.OR)
             .build();
@@ -99,14 +99,7 @@ public final class XPathTest {
     @Test
     public void test_attributeBlockCreation_shouldWork() {
         // Setup
-        PlatformType platform = new PlatformType() {
-            @NotNull
-            @Override
-            public String value() {
-                return "value";
-            }
-        };
-
+        PlatformType platform = () -> "value";
         Attributes attrs = Attributes.of(platform);
 
         AttributeBlock a1 = AttributeBlock.builder()
@@ -128,5 +121,24 @@ public final class XPathTest {
         LogUtil.println(a1);
         LogUtil.println(a2);
         LogUtil.println(a3);
+    }
+
+    @Test
+    public void test_notContainingDescendant_shouldWork() {
+        // Setup
+        PlatformType platform = () -> "value";
+        Attributes attrs = Attributes.of(platform);
+        Attribute a1 = attrs.containsText("text1");
+        Attribute a2 = attrs.containsID("id1");
+        CompoundAttribute c1 = CompoundAttribute.single(a1);
+        CompoundAttribute c2 = CompoundAttribute.single(a2);
+
+        // When
+        XPath xp1 = XPath.builder()
+            .addAttribute(CompoundAttribute.descendant(c1, c2))
+            .build();
+
+        // Then
+        LogUtil.println(xp1);
     }
 }

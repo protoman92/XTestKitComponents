@@ -65,7 +65,6 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
      * @see #joiner
      */
     @NotNull
-    @Override
     public Joiner joiner() {
         return joiner;
     }
@@ -126,7 +125,6 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
     /**
      * Override this method to provide default implementation.
      * @return {@link String} value.
-     * @see AttributeType#baseAttribute()
      * @see Formatible#stringFormat(Object)
      * @see Joiner#symbol()
      * @see #attributes()
@@ -134,8 +132,7 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
      * @see #value()
      */
     @NotNull
-    @Override
-    public String baseAttribute() {
+    private String baseAttribute() {
         Formatible<T> formatible = formatible();
         Joiner joiner = joiner();
         T value = value();
@@ -150,17 +147,41 @@ public final class Attribute<T> implements AttributeType, BaseErrorType {
     }
 
     /**
+     * Get the wrapped {@link #baseAttribute()}.
+     * @return {@link String} value.
+     * @see Wrapper#wrapperFormat()
+     * @see #baseAttribute()
+     * @see #wrapper()
+     */
+    @NotNull
+    private String wrappedAttribute() {
+        Wrapper wrapper = wrapper();
+        String wrapperFormat = wrapper.wrapperFormat();
+        String base = baseAttribute();
+        return String.format(wrapperFormat, base);
+    }
+
+    /**
+     * Get the full attribute.
+     * @return {@link String} value.
+     * @see #wrappedAttribute()
+     */
+    @NotNull
+    @Override
+    public String fullAttribute() {
+        return wrappedAttribute();
+    }
+
+    /**
      * Override this method to provide default implementation.
      * @param joiner {@link Joiner} instance.
      * @return {@link Attribute} instance.
-     * @see AttributeType#withJoiner(Joiner)
      * @see Builder#build()
      * @see Builder#withAttribute(Attribute)
      * @see Builder#withJoiner(Joiner)
      * @see #builder()
      */
     @NotNull
-    @Override
     public Attribute<T> withJoiner(@NotNull Joiner joiner) {
         return Attribute.<T>builder()
             .withAttribute(this)

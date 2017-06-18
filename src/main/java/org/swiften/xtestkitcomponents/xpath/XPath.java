@@ -176,41 +176,6 @@ public class XPath {
             return this;
         }
 
-        /**
-         * Convenient method for
-         * {@link CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)}.
-         * @param target {@link CompoundAttribute} instance.
-         * @param sibling {@link CompoundAttribute} instance.
-         * @return {@link Builder} instance.
-         * @see CompoundAttribute#precedingSibling(CompoundAttribute, CompoundAttribute)
-         * @see #addAttribute(CompoundAttribute)
-         */
-        @NonNull
-        public Builder precedingSibling(@NotNull CompoundAttribute target,
-                                        @NonNull CompoundAttribute sibling) {
-            Collection<CompoundAttribute> attrs = CompoundAttribute
-                .precedingSibling(target, sibling);
-
-            return addAttribute(attrs);
-        }
-
-        /**
-         * Convenient method for
-         * {@link CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)}.
-         * @param target {@link CompoundAttribute} instance.
-         * @param sibling {@link CompoundAttribute} instance.
-         * @return {@link Builder} instance.
-         * @see CompoundAttribute#followingSibling(CompoundAttribute, CompoundAttribute)
-         * @see #addAttribute(CompoundAttribute)
-         */
-        @NonNull
-        public Builder followingSibling(@NotNull CompoundAttribute target,
-                                        @NonNull CompoundAttribute sibling) {
-            Collection<CompoundAttribute> attrs;
-            attrs = CompoundAttribute.followingSibling(target, sibling);
-            return addAttribute(attrs);
-        }
-
         @NotNull
         public XPath build() {
             return XPATH;

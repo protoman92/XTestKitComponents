@@ -7,6 +7,7 @@ package org.swiften.xtestkitcomponents.xpath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
+import org.swiften.javautilities.log.LogUtil;
 import org.swiften.javautilities.object.ObjectUtil;
 
 import java.util.*;
@@ -16,7 +17,7 @@ import java.util.stream.Collectors;
  * This is an enhanced version of {@link Attribute} as it adds class name and
  * index.
  */
-public final class CompoundAttribute {
+public final class CompoundAttribute implements AttributeType {
     /**
      * Get {@link Builder} instance.
      * @return {@link Builder} instance.
@@ -50,40 +51,46 @@ public final class CompoundAttribute {
 
     /**
      * {@link CompoundAttribute} with a single {@link AttributeType}.
-     * @param block {@link AttributeType} instance.
+     * @param attribute {@link AttributeType} instance.
      * @return {@link CompoundAttribute} instance.
      * @see Builder#addAttribute(AttributeType)
+     * @see Builder#withAttribute(CompoundAttribute)
      * @see Builder#build()
      * @see #builder()
      */
     @NotNull
-    public static CompoundAttribute single(@NotNull AttributeType block) {
-        return builder().addAttribute(block).build();
+    public static CompoundAttribute single(@NotNull AttributeType attribute) {
+        if (attribute instanceof CompoundAttribute) {
+            return builder().withAttribute((CompoundAttribute)attribute).build();
+        } else {
+            return builder().addAttribute(attribute).build();
+        }
     }
 
     /**
      * Get {@link Collection} of {@link CompoundAttribute} that, once used
      * together, would produce a query that locates the following sibling
      * {@link CompoundAttribute}.
-     * @param target {@link CompoundAttribute} instance.
-     * @param sibling {@link CompoundAttribute} instance.
+     * @param target {@link AttributeType} instance.
+     * @param sibling {@link AttributeType} instance.
      * @return {@link Collection} of {@link CompoundAttribute}.
      * @see Builder#withAxis(Axis)
      * @see Builder#withAttribute(CompoundAttribute)
      * @see CollectionUtil#asList(Object[])
+     * @see CompoundAttribute#single(AttributeType)
      * @see Axis#FOLLOWING_SIBLING
      * @see Path#DIRECT
      * @see #builder()
      */
     @NotNull
     public static Collection<CompoundAttribute> followingSibling(
-        @NotNull CompoundAttribute target,
-        @NotNull CompoundAttribute sibling
+        @NotNull AttributeType target,
+        @NotNull AttributeType sibling
     ) {
-        CompoundAttribute c1 = builder().withAttribute(sibling).build();
+        CompoundAttribute c1 = CompoundAttribute.single(sibling);
 
         CompoundAttribute c2 = builder()
-            .withAttribute(target)
+            .withAttribute(CompoundAttribute.single(target))
             .withAxis(Axis.FOLLOWING_SIBLING)
             .withPath(Path.DIRECT)
             .build();
@@ -95,24 +102,25 @@ public final class CompoundAttribute {
      * Get {@link Collection} of {@link CompoundAttribute} that, once used
      * together, would produce a query that locates the preceding sibling
      * {@link CompoundAttribute}.
-     * @param target {@link CompoundAttribute} instance.
-     * @param sibling {@link CompoundAttribute} instance.
+     * @param target {@link AttributeType} instance.
+     * @param sibling {@link AttributeType} instance.
      * @return {@link Collection} of {@link CompoundAttribute}.
      * @see Builder#withAxis(Axis)
      * @see Builder#withAttribute(CompoundAttribute)
      * @see CollectionUtil#asList(Object[])
+     * @see CompoundAttribute#single(AttributeType)
      * @see Axis#PRECEDING_SIBLING
      * @see Path#DIRECT
      * @see #builder()
      */
     public static Collection<CompoundAttribute> precedingSibling(
-        @NotNull CompoundAttribute target,
-        @NotNull CompoundAttribute sibling
+        @NotNull AttributeType target,
+        @NotNull AttributeType sibling
     ) {
-        CompoundAttribute c1 = builder().withAttribute(sibling).build();
+        CompoundAttribute c1 = CompoundAttribute.single(sibling);
 
         CompoundAttribute c2 = builder()
-            .withAttribute(target)
+            .withAttribute(CompoundAttribute.single(target))
             .withAxis(Axis.PRECEDING_SIBLING)
             .withPath(Path.DIRECT)
             .build();
@@ -120,9 +128,50 @@ public final class CompoundAttribute {
         return CollectionUtil.asList(c1, c2);
     }
 
+    /**
+     * Get {@link Collection} of {@link CompoundAttribute} that, once used
+     * together, would produce a query that locates ancestors based on
+     * descendants.
+     * @param self {@link CompoundAttribute} instance.
+     * @param descendant {@link CompoundAttribute} instance.
+     * @return {@link Collection} of {@link CompoundAttribute}.
+     * @see Builder#addAttribute(AttributeType)
+     * @see Builder#withAxis(Axis)
+     * @see Builder#withAttribute(CompoundAttribute)
+     * @see Builder#withNoClass()
+     * @see Builder#withPath(Path)
+     * @see CollectionUtil#asList(Object[])
+     * @see CompoundAttribute#single(AttributeType)
+     * @see Axis#DESCENDANT
+     * @see Path#NONE
+     * @see #builder()
+     */
+    @NotNull
+    public static Collection<CompoundAttribute> descendant(
+        @NotNull AttributeType self,
+        @NotNull AttributeType descendant
+    ) {
+        CompoundAttribute c1 = CompoundAttribute.single(self);
+
+        CompoundAttribute c2 = builder()
+            .withAttribute(CompoundAttribute.single(descendant))
+            .withAxis(Axis.DESCENDANT)
+            .withPath(Path.NONE)
+            .build();
+
+        CompoundAttribute c3 = CompoundAttribute.builder()
+            .withNoClass()
+            .withPath(Path.NONE)
+            .addAttribute(AttributeBlock.single(c2))
+            .build();
+
+        return CollectionUtil.asList(c1, c3);
+    }
+
     @NotNull private final Collection<AttributeBlock> ATTRIBUTES;
     @NotNull private Axis axis;
     @NotNull private Path path;
+    @NotNull private Wrapper wrapper;
     @NotNull private String className;
     @Nullable private Integer index;
 
@@ -130,6 +179,7 @@ public final class CompoundAttribute {
         ATTRIBUTES = new LinkedList<>();
         path = Path.ANY;
         axis = Axis.NONE;
+        wrapper = Wrapper.NONE;
         className = "*";
     }
 
@@ -185,6 +235,16 @@ public final class CompoundAttribute {
     }
 
     /**
+     * Get {@link #wrapper}.
+     * @return {@link Wrapper} instance.
+     * @see #wrapper
+     */
+    @NotNull
+    public Wrapper wrapper() {
+        return wrapper;
+    }
+
+    /**
      * Get the base attribute from {@link #ATTRIBUTES}.
      * @return {@link String} value.
      * @see Attribute#fullAttribute()
@@ -233,14 +293,14 @@ public final class CompoundAttribute {
     }
 
     /**
-     * Get the full attribute, including {@link #index}.
+     * Get {@link #attributeWithPath()}, including {@link #index}.
      * @return {@link String} value.
      * @see ObjectUtil#nonNull(Object)
      * @see #attributeWithPath()
      * @see #index()
      */
     @NotNull
-    public String fullAttribute() {
+    private String attributeWithIndex() {
         String withDM = attributeWithPath();
         Integer index = index();
 
@@ -249,6 +309,31 @@ public final class CompoundAttribute {
         } else {
             return withDM;
         }
+    }
+
+    /**
+     * Get {@link #attributeWithIndex()} with {@link #wrapper}.
+     * @return {@link String} value.
+     * @see Wrapper#wrapperFormat()
+     * @see #attributeWithIndex()
+     * @see #wrapper()
+     */
+    @NotNull
+    private String wrappedAttribute() {
+        String withIndex = attributeWithIndex();
+        Wrapper wrapper = wrapper();
+        String format = wrapper.wrapperFormat();
+        return String.format(format, withIndex);
+    }
+
+    /**
+     * Get the full attribute.
+     * @return {@link String} value.
+     * @see #wrappedAttribute()
+     */
+    @NotNull
+    public String fullAttribute() {
+        return wrappedAttribute();
     }
 
     /**
@@ -311,6 +396,21 @@ public final class CompoundAttribute {
     @NotNull
     public CompoundAttribute addAttribute(@NotNull AttributeType...attrs) {
         return addAttribute(CollectionUtil.asList(attrs));
+    }
+
+    /**
+     * Return a new {@link CompoundAttribute} wrapped in {@link Wrapper#NOT}.
+     * @return {@link CompoundAttribute} instance.
+     * @see CompoundAttribute.Builder#withAttribute(CompoundAttribute)
+     * @see CompoundAttribute.Builder#withWrapper(Wrapper)
+     * @see Wrapper#NOT
+     */
+    @NotNull
+    public CompoundAttribute not() {
+        return CompoundAttribute.builder()
+            .withAttribute(this)
+            .withWrapper(Wrapper.NOT)
+            .build();
     }
 
     /**
@@ -430,6 +530,16 @@ public final class CompoundAttribute {
         }
 
         /**
+         * Set {@link #className} to none.
+         * @return {@link Builder} instance.
+         * @see #withClass(String)
+         */
+        @NotNull
+        public Builder withNoClass() {
+            return withClass("");
+        }
+
+        /**
          * Set {@link #index} instance.
          * @param index {@link Integer} value.
          * @return The {@link Attribute.Builder} instance.
@@ -438,6 +548,18 @@ public final class CompoundAttribute {
         @NotNull
         public Builder withIndex(@Nullable Integer index) {
             ATTRIBUTE.index = index;
+            return this;
+        }
+
+        /**
+         * Set the {@link #wrapper} instance.
+         * @param wrapper {@link Wrapper} instance.
+         * @return {@link Builder} instance.
+         * @see #wrapper
+         */
+        @NotNull
+        public Builder withWrapper(@NotNull Wrapper wrapper) {
+            ATTRIBUTE.wrapper = wrapper;
             return this;
         }
 
@@ -463,7 +585,8 @@ public final class CompoundAttribute {
                 .withAxis(attribute.axis())
                 .withPath(attribute.path())
                 .withClass(attribute.className())
-                .withIndex(attribute.index());
+                .withIndex(attribute.index())
+                .withWrapper(attribute.wrapper());
         }
 
         /**

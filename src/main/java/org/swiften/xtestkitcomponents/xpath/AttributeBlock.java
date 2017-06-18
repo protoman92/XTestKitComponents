@@ -66,24 +66,20 @@ public final class AttributeBlock implements AttributeType {
     /**
      * Override this method to provide default implementation.
      * @return {@link Wrapper} instance.
-     * @see AttributeType#wrapper()
      * @see Wrapper#BASIC
      * @see #wrapper
      */
     @NotNull
-    @Override
-    public Wrapper wrapper() {
+    private Wrapper wrapper() {
         return Wrapper.BASIC;
     }
 
     /**
      * Override this method to provide default implementation.
      * @return {@link Joiner} instance.
-     * @see AttributeType#joiner()
      * @see #joiner
      */
     @NotNull
-    @Override
     public Joiner joiner() {
         return joiner;
     }
@@ -92,14 +88,12 @@ public final class AttributeBlock implements AttributeType {
      * Override this method to provide default implementation.
      * @param joiner {@link Joiner} instance.
      * @return {@link AttributeBlock} instance.
-     * @see AttributeType#withJoiner(Joiner)
      * @see Builder#withBlock(AttributeBlock)
      * @see Builder#withJoiner(Joiner)
      * @see Builder#build()
      * @see #builder()
      */
     @NotNull
-    @Override
     public AttributeBlock withJoiner(@NotNull Joiner joiner) {
         return builder().withBlock(this).withJoiner(joiner).build();
     }
@@ -107,14 +101,12 @@ public final class AttributeBlock implements AttributeType {
     /**
      * Override this method to provide default implementation.
      * @return {@link String} value.
-     * @see AttributeType#baseAttribute()
      * @see AttributeType#fullAttribute()
      * @see Joiner#symbol()
      * @see #joiner()
      */
     @NotNull
-    @Override
-    public String baseAttribute() {
+    private String baseAttribute() {
         Joiner joiner = joiner();
         String joinerSymbol = String.format(" %s ", joiner.symbol());
 
@@ -123,6 +115,32 @@ public final class AttributeBlock implements AttributeType {
             .collect(Collectors.toList());
 
         return String.join(joinerSymbol, attrs);
+    }
+
+    /**
+     * Get the wrapped {@link #baseAttribute()}.
+     * @return {@link String} value.
+     * @see Wrapper#wrapperFormat()
+     * @see #baseAttribute()
+     * @see #wrapper()
+     */
+    @NotNull
+    private String wrappedAttribute() {
+        Wrapper wrapper = wrapper();
+        String wrapperFormat = wrapper.wrapperFormat();
+        String base = baseAttribute();
+        return String.format(wrapperFormat, base);
+    }
+
+    /**
+     * Get the full attribute.
+     * @return {@link String} value.
+     * @see #wrappedAttribute()
+     */
+    @NotNull
+    @Override
+    public String fullAttribute() {
+        return wrappedAttribute();
     }
 
     /**

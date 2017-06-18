@@ -11,6 +11,7 @@ import org.swiften.xtestkitcomponents.common.BaseErrorType;
  * Use this to add axis to {@link CompoundAttribute}.
  */
 public enum Axis implements BaseErrorType {
+    DESCENDANT,
     FOLLOWING_SIBLING,
     PRECEDING_SIBLING,
     NONE;
@@ -18,6 +19,7 @@ public enum Axis implements BaseErrorType {
     /**
      * Get the associated symbol {@link String}.
      * @return {@link String} value.
+     * @see #DESCENDANT
      * @see #FOLLOWING_SIBLING
      * @see #PRECEDING_SIBLING
      * @see #NONE
@@ -26,6 +28,9 @@ public enum Axis implements BaseErrorType {
     @NotNull
     public String symbol() {
         switch (this) {
+            case DESCENDANT:
+                return "descendant::";
+
             case FOLLOWING_SIBLING:
                 return "following-sibling::";
 
