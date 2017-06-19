@@ -113,28 +113,28 @@ public class XPath {
 
         /**
          * Replace {@link #ATTRIBUTES} with new {@link Attribute} instances.
-         * @param xPath {@link XPath} instance.
+         * @param xpath {@link XPath} instance.
          * @return {@link Builder} instance.
          * @see XPath#compoundAttributes()
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder withXPath(@NotNull XPath xPath) {
+        public Builder withXPath(@NotNull XPath xpath) {
             XPATH.ATTRIBUTES.clear();
-            XPATH.ATTRIBUTES.addAll(xPath.compoundAttributes());
+            XPATH.ATTRIBUTES.addAll(xpath.compoundAttributes());
             return this;
         }
 
         /**
          * Add {@link #ATTRIBUTES} from another {@link XPath} instance.
-         * @param xPath {@link XPath} instance.
+         * @param xpath {@link XPath} instance.
          * @return {@link Builder} instance.
          * @see XPath#compoundAttributes()
          * @see #ATTRIBUTES
          */
         @NotNull
-        public Builder addXPath(@NotNull XPath xPath) {
-            XPATH.ATTRIBUTES.addAll(xPath.compoundAttributes());
+        public Builder addXPath(@NotNull XPath xpath) {
+            XPATH.ATTRIBUTES.addAll(xpath.compoundAttributes());
             return this;
         }
 

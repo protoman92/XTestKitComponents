@@ -19,23 +19,23 @@ public final class XPathTest {
         PlatformType platform = () -> "value";
         Attributes attrs = Attributes.of(platform);
 
-        XPath xPath1 = XPath.builder()
+        XPath xpath1 = XPath.builder()
             .addAttribute(attrs.atIndex(1))
             .addAttribute(attrs.ofInstance(1))
             .build();
 
-        XPath xPath2 = XPath.builder()
+        XPath xpath2 = XPath.builder()
             .addAttribute(attrs.containsID("test-id"))
             .addAttribute(attrs.containsText("text").not())
             .build();
 
-        XPath xPath3 = XPath.builder()
-            .withXPath(xPath2)
-            .withXPath(xPath1)
+        XPath xpath3 = XPath.builder()
+            .withXPath(xpath2)
+            .withXPath(xpath1)
             .addAttribute(attrs.isClickable(true))
             .build();
 
-        XPath xPath4 = XPath.builder()
+        XPath xpath4 = XPath.builder()
             .addAttribute(CompoundAttribute.followingSibling(
                 CompoundAttribute.builder()
                     .addAttribute(attrs.containsID("parent1"))
@@ -52,10 +52,10 @@ public final class XPathTest {
             .build();
 
         // When & Then
-        LogUtil.println(xPath1.attribute());
-        LogUtil.println(xPath2.attribute());
-        LogUtil.println(xPath3.attribute());
-        LogUtil.println(xPath4.attribute());
+        LogUtil.println(xpath1.attribute());
+        LogUtil.println(xpath2.attribute());
+        LogUtil.println(xpath3.attribute());
+        LogUtil.println(xpath4.attribute());
     }
 
     @Test
