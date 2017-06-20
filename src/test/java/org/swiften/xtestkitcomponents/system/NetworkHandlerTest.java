@@ -5,7 +5,7 @@ import org.swiften.javautilities.log.LogUtil;
 import io.reactivex.subscribers.TestSubscriber;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.rx.CustomTestSubscriber;
-import org.swiften.javautilities.rx.RxTestUtil;
+import org.swiften.javautilities.rx.RxUtil;
 import org.swiften.xtestkitcomponents.common.RetryType;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
@@ -73,7 +73,7 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
             subscriber.assertSubscribed();
             subscriber.assertNoErrors();
             subscriber.assertComplete();
-            assertEquals(RxTestUtil.firstNextEvent(subscriber), Integer.valueOf(tries));
+            assertEquals(RxUtil.firstNextEvent(subscriber), Integer.valueOf(tries));
             verify(HANDLER, times(tries)).isPortAvailable(any(), anyInt());
             verify(HANDLER, times(tries)).processRunner();
             verify(HANDLER, times(tries)).cmListAllPorts();
@@ -101,7 +101,7 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
             subscriber.assertSubscribed();
             subscriber.assertNoErrors();
             subscriber.assertComplete();
-            assertEquals(RxTestUtil.firstNextEvent(subscriber), Integer.valueOf(0));
+            assertEquals(RxUtil.firstNextEvent(subscriber), Integer.valueOf(0));
             verify(HANDLER).processRunner();
             verify(HANDLER).cmListAllPorts();
             verify(HANDLER).rxa_checkPortAvailable(any());
