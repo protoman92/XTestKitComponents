@@ -110,16 +110,16 @@ public class ProcessRunner {
      * @see #execute(String, Consumer, Consumer, Runnable)
      */
     @NotNull
+    @SuppressWarnings("CodeBlock2Expr")
     public Flowable<String> rxa_execute(@NotNull final String ARGS) {
         final ProcessRunner THIS = this;
 
-        return Flowable
-            .<String>create(a -> {
-                new Thread(() ->
-                    THIS.execute(ARGS, a::onNext, a::onError, a::onComplete)
-                ).start();
+        return Flowable.<String>create(a -> {
+                THIS.execute(ARGS, a::onNext, a::onError, a::onComplete);
             }, BackpressureStrategy.BUFFER)
             .serialize()
+            .subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.computation())
             .doOnError(e -> LogUtil.printft("Error %s with %s", e, ARGS));
     }
 
@@ -239,8 +239,8 @@ public class ProcessRunner {
                 THIS.executeStream(ARGS, a::onNext, a::onError, a::onComplete),
                 BackpressureStrategy.BUFFER
             )
-            .subscribeOn(Schedulers.io())
-            .observeOn(Schedulers.io())
+            .subscribeOn(Schedulers.computation())
+            .observeOn(Schedulers.computation())
             .serialize();
     }
 }

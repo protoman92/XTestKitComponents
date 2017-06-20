@@ -9,12 +9,12 @@ import org.swiften.xtestkitcomponents.platform.PlatformType;
 
 /**
  * This interface provides view-specific properties. Each {@link PlatformType}
- * should have a set of {@link BaseViewType} that can be used to search for
+ * should have a set of {@link ViewType} that can be used to search for
  * elements.
  */
-public interface BaseViewType extends ClassNameType {
+public interface ViewType extends ClassNameType {
     /**
-     * Check whether the current {@link BaseViewType} could display {@link String}
+     * Check whether the current {@link ViewType} could display {@link String}
      * text.
      * @return {@link Boolean} value.
      */
@@ -23,7 +23,7 @@ public interface BaseViewType extends ClassNameType {
     }
 
     /**
-     * Check whether the current {@link BaseViewType} is clickable. For e.g., Android's
+     * Check whether the current {@link ViewType} is clickable. For e.g., Android's
      * Button and iOS's UIButton classes.
      * @return {@link Boolean} value.
      */
@@ -32,7 +32,7 @@ public interface BaseViewType extends ClassNameType {
     }
 
     /**
-     * Check whether the current {@link BaseViewType} is editable.
+     * Check whether the current {@link ViewType} is editable.
      * @return {@link Boolean} value.
      */
     default boolean isEditable() {

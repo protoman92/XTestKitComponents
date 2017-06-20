@@ -36,19 +36,16 @@ public final class XPathTest {
             .build();
 
         XPath xpath4 = XPath.builder()
-            .addAttribute(CompoundAttribute.followingSibling(
-                CompoundAttribute.builder()
-                    .addAttribute(attrs.containsID("parent1"))
-                    .build(),
-
-                CompoundAttribute.builder()
-                    .addAttribute(attrs.containsText("text1"))
-                    .addAttribute(attrs.ofClass("class1").not())
-                    .addAttribute(attrs.isEditable(true))
-                    .build()
-                    .withClass("TC")
-                    .withIndex(1)
-            ))
+            .addAttribute(CompoundAttribute.builder()
+                .addAttribute(attrs.containsText("text1"))
+                .addAttribute(attrs.ofClass("class1").not())
+                .addAttribute(attrs.isEditable(true))
+                .build()
+                .withClass("TC")
+                .withIndex(1))
+            .addAttribute(Axes.followingSibling(CompoundAttribute.builder()
+                .addAttribute(attrs.containsID("parent1"))
+                .build()))
             .build();
 
         // When & Then
@@ -135,7 +132,8 @@ public final class XPathTest {
 
         // When
         XPath xp1 = XPath.builder()
-            .addAttribute(CompoundAttribute.descendant(c1, c2))
+            .addAttribute(c1)
+            .addAttribute(Axes.descendant(c2.not()))
             .build();
 
         // Then

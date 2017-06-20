@@ -7,10 +7,12 @@ package org.swiften.xtestkitcomponents.xpath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
-import org.swiften.javautilities.log.LogUtil;
 import org.swiften.javautilities.object.ObjectUtil;
 
-import java.util.*;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.LinkedList;
+import java.util.List;
 import java.util.stream.Collectors;
 
 /**
@@ -65,107 +67,6 @@ public final class CompoundAttribute implements AttributeType {
         } else {
             return builder().addAttribute(attribute).build();
         }
-    }
-
-    /**
-     * Get {@link Collection} of {@link CompoundAttribute} that, once used
-     * together, would produce a query that locates the following sibling
-     * {@link CompoundAttribute}.
-     * @param target {@link AttributeType} instance.
-     * @param sibling {@link AttributeType} instance.
-     * @return {@link Collection} of {@link CompoundAttribute}.
-     * @see Builder#withAxis(Axis)
-     * @see Builder#withAttribute(CompoundAttribute)
-     * @see CollectionUtil#asList(Object[])
-     * @see CompoundAttribute#single(AttributeType)
-     * @see Axis#FOLLOWING_SIBLING
-     * @see Path#DIRECT
-     * @see #builder()
-     */
-    @NotNull
-    public static Collection<CompoundAttribute> followingSibling(
-        @NotNull AttributeType target,
-        @NotNull AttributeType sibling
-    ) {
-        CompoundAttribute c1 = CompoundAttribute.single(sibling);
-
-        CompoundAttribute c2 = builder()
-            .withAttribute(CompoundAttribute.single(target))
-            .withAxis(Axis.FOLLOWING_SIBLING)
-            .withPath(Path.DIRECT)
-            .build();
-
-        return CollectionUtil.asList(c1, c2);
-    }
-
-    /**
-     * Get {@link Collection} of {@link CompoundAttribute} that, once used
-     * together, would produce a query that locates the preceding sibling
-     * {@link CompoundAttribute}.
-     * @param target {@link AttributeType} instance.
-     * @param sibling {@link AttributeType} instance.
-     * @return {@link Collection} of {@link CompoundAttribute}.
-     * @see Builder#withAxis(Axis)
-     * @see Builder#withAttribute(CompoundAttribute)
-     * @see CollectionUtil#asList(Object[])
-     * @see CompoundAttribute#single(AttributeType)
-     * @see Axis#PRECEDING_SIBLING
-     * @see Path#DIRECT
-     * @see #builder()
-     */
-    public static Collection<CompoundAttribute> precedingSibling(
-        @NotNull AttributeType target,
-        @NotNull AttributeType sibling
-    ) {
-        CompoundAttribute c1 = CompoundAttribute.single(sibling);
-
-        CompoundAttribute c2 = builder()
-            .withAttribute(CompoundAttribute.single(target))
-            .withAxis(Axis.PRECEDING_SIBLING)
-            .withPath(Path.DIRECT)
-            .build();
-
-        return CollectionUtil.asList(c1, c2);
-    }
-
-    /**
-     * Get {@link Collection} of {@link CompoundAttribute} that, once used
-     * together, would produce a query that locates ancestors based on
-     * descendants.
-     * @param self {@link CompoundAttribute} instance.
-     * @param descendant {@link CompoundAttribute} instance.
-     * @return {@link Collection} of {@link CompoundAttribute}.
-     * @see Builder#addAttribute(AttributeType)
-     * @see Builder#withAxis(Axis)
-     * @see Builder#withAttribute(CompoundAttribute)
-     * @see Builder#withNoClass()
-     * @see Builder#withPath(Path)
-     * @see CollectionUtil#asList(Object[])
-     * @see CompoundAttribute#single(AttributeType)
-     * @see Axis#DESCENDANT
-     * @see Path#NONE
-     * @see #builder()
-     */
-    @NotNull
-    public static Collection<CompoundAttribute> descendant(
-        @NotNull AttributeType self,
-        @NotNull AttributeType descendant
-    ) {
-        CompoundAttribute c1 = CompoundAttribute.single(self);
-
-        CompoundAttribute c2 = builder()
-            .withAttribute(CompoundAttribute.single(descendant))
-            .withAxis(Axis.DESCENDANT)
-            .withPath(Path.NONE)
-            .build();
-
-        CompoundAttribute c3 = CompoundAttribute.builder()
-            .withNoClass()
-            .withPath(Path.NONE)
-            .addAttribute(AttributeBlock.single(c2))
-            .build();
-
-        return CollectionUtil.asList(c1, c3);
     }
 
     @NotNull private final Collection<AttributeBlock> ATTRIBUTES;
