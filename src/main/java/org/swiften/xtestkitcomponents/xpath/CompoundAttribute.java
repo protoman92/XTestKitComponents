@@ -8,6 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
 import org.swiften.javautilities.object.ObjectUtil;
+import org.swiften.xtestkitcomponents.common.ClassNameType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -49,6 +50,18 @@ public final class CompoundAttribute implements AttributeType {
     @NotNull
     public static CompoundAttribute forClass(@NotNull String clsName) {
         return empty().withClass(clsName);
+    }
+
+    /**
+     * Same as above, but uses {@link ClassNameType}.
+     * @param param {@link ClassNameType} instance.
+     * @return {@link CompoundAttribute} instance.
+     * @see ClassNameType#className()
+     * @see #forClass(ClassNameType)
+     */
+    @NotNull
+    public static CompoundAttribute forClass(@NotNull ClassNameType param) {
+        return forClass(param.className());
     }
 
     /**
@@ -255,6 +268,18 @@ public final class CompoundAttribute implements AttributeType {
     }
 
     /**
+     * Same as above, but uses {@link ClassNameType}.
+     * @param param {@link ClassNameType} instance.
+     * @return {@link CompoundAttribute} instance.
+     * @see ClassNameType#className()
+     * @see #withClass(String)
+     */
+    @NotNull
+    public CompoundAttribute withClass(@NotNull ClassNameType param) {
+        return withClass(param.className());
+    }
+
+    /**
      * Get a new {@link CompoundAttribute} instance with an index.
      * @param index {@link Integer} value.
      * @return {@link CompoundAttribute} instance.
@@ -428,6 +453,18 @@ public final class CompoundAttribute implements AttributeType {
         public Builder withClass(@NotNull String clsName) {
             ATTRIBUTE.className = clsName;
             return this;
+        }
+
+        /**
+         * Same as above, but uses {@link ClassNameType}.
+         * @param param {@link ClassNameType} instance.
+         * @return {@link Builder} instance.
+         * @see ClassNameType#className()
+         * @see #withClass(String)
+         */
+        @NotNull
+        public Builder withClass(@NotNull ClassNameType param) {
+            return withClass(param.className());
         }
 
         /**

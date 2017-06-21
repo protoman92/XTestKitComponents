@@ -5,6 +5,7 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
+import org.swiften.xtestkitcomponents.common.ClassNameType;
 import org.swiften.xtestkitcomponents.platform.PlatformProviderType;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 
@@ -117,6 +118,18 @@ public final class Attributes {
             .withJoiner(Joiner.OR)
             .withValue(className)
             .build();
+    }
+
+    /**
+     * Same as above, but uses {@link ClassNameType}.
+     * @param param {@link ClassNameType} instance.
+     * @return {@link Attribute} instance.
+     * @see ClassNameType#className()
+     * @see #ofClass(String)
+     */
+    @NotNull
+    public Attribute ofClass(@NotNull ClassNameType param) {
+        return ofClass(param.className());
     }
 
     /**
