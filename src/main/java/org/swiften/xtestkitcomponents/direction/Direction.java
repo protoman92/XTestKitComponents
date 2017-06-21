@@ -6,12 +6,13 @@ package org.swiften.xtestkitcomponents.direction;
 
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.CollectionUtil;
+import org.swiften.xtestkitcomponents.common.BaseErrorType;
 
 /**
  * This enum provides simplistic directions for certain actions such as
  * swipes.
  */
-public enum Direction {
+public enum Direction implements BaseErrorType {
     UP_DOWN,
     DOWN_UP,
     LEFT_RIGHT,
@@ -102,6 +103,35 @@ public enum Direction {
 
             default:
                 return false;
+        }
+    }
+
+    /**
+     * Get the opposite {@link Direction}.
+     * @return {@link Direction} instance.
+     * @see #DOWN_UP
+     * @see #LEFT_RIGHT
+     * @see #RIGHT_LEFT
+     * @see #UP_DOWN
+     * @see #NOT_AVAILABLE
+     */
+    @NotNull
+    public Direction opposite() {
+        switch (this) {
+            case UP_DOWN:
+                return DOWN_UP;
+
+            case DOWN_UP:
+                return UP_DOWN;
+
+            case LEFT_RIGHT:
+                return RIGHT_LEFT;
+
+            case RIGHT_LEFT:
+                return LEFT_RIGHT;
+
+            default:
+                throw new RuntimeException(NOT_AVAILABLE);
         }
     }
 }
