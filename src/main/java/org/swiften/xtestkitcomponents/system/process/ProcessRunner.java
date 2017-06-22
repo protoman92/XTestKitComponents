@@ -5,7 +5,7 @@ import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.exec.*;
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.log.LogUtil;
+import org.swiften.javautilities.util.LogUtil;
 import org.swiften.javautilities.object.ObjectUtil;
 
 import java.io.*;

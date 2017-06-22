@@ -1,7 +1,8 @@
 package org.swiften.xtestkitcomponents.system.network.param;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.RetryType;
+import org.swiften.javautilities.protocol.RetryType;
+import org.swiften.javautilities.util.Constants;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
 import org.swiften.xtestkitcomponents.system.network.type.PortStepType;
 import org.swiften.xtestkitcomponents.system.network.type.PortType;
@@ -30,7 +31,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
         port = 0;
         maxPort = MaxPortType.super.maxPort();
         portStep = PortStepType.super.portStep();
-        retries = RetryType.super.retries();
+        retries = Constants.DEFAULT_RETRIES;
     }
 
     //region Getters

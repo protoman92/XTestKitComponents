@@ -1,6 +1,6 @@
 package org.swiften.xtestkitcomponents.system;
 
-import org.swiften.javautilities.log.LogUtil;
+import org.swiften.javautilities.util.LogUtil;
 import org.swiften.javautilities.rx.RxUtil;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import io.reactivex.Flowable;

@@ -1,6 +1,6 @@
 package org.swiften.xtestkitcomponents.view;
 
-import org.swiften.xtestkitcomponents.common.ClassNameType;
+import org.swiften.javautilities.protocol.ClassNameType;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 
 /**

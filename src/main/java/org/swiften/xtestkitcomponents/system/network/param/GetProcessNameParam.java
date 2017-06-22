@@ -5,7 +5,8 @@ package org.swiften.xtestkitcomponents.system.network.param;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.RetryType;
+import org.swiften.javautilities.protocol.RetryType;
+import org.swiften.javautilities.util.Constants;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
 import org.swiften.xtestkitcomponents.system.network.type.PIDIdentifiableType;
 
@@ -28,7 +29,7 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
     private int retries;
 
     GetProcessNameParam() {
-        retries = RetryType.super.retries();
+        retries = Constants.DEFAULT_RETRIES;
         pid = "";
     }
 

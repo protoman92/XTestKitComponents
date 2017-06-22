@@ -8,7 +8,7 @@ import io.reactivex.Flowable;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.bool.BooleanUtil;
 import org.swiften.javautilities.string.StringUtil;
-import org.swiften.xtestkitcomponents.common.RetryType;
+import org.swiften.javautilities.protocol.RetryType;
 import org.swiften.xtestkitcomponents.system.network.param.GetProcessNameParam;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunnerHolderType;

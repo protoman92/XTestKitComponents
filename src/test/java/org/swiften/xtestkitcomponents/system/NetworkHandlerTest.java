@@ -1,12 +1,13 @@
 package org.swiften.xtestkitcomponents.system;
 
 import io.reactivex.Flowable;
-import org.swiften.javautilities.log.LogUtil;
 import io.reactivex.subscribers.TestSubscriber;
 import org.jetbrains.annotations.NotNull;
+import org.swiften.javautilities.protocol.RetryType;
 import org.swiften.javautilities.rx.CustomTestSubscriber;
 import org.swiften.javautilities.rx.RxUtil;
-import org.swiften.xtestkitcomponents.common.RetryType;
+import org.swiften.javautilities.util.Constants;
+import org.swiften.javautilities.util.LogUtil;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
 import org.swiften.xtestkitcomponents.system.network.type.NetworkHandlerErrorType;
@@ -23,9 +24,7 @@ import java.util.stream.Collectors;
 import static org.mockito.ArgumentMatchers.anyInt;
 import static org.mockito.ArgumentMatchers.eq;
 import static org.mockito.Mockito.*;
-import static org.mockito.Mockito.verify;
 import static org.testng.Assert.assertEquals;
-import static org.testng.Assert.assertTrue;
 import static org.testng.Assert.fail;
 
 /**
@@ -145,11 +144,14 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
             PORT = port;
         }
 
-        //region PortType
+        @Override
+        public int retries() {
+            return Constants.DEFAULT_RETRIES;
+        }
+
         @Override
         public int port() {
             return PORT;
         }
-        //endregion
     }
 }
