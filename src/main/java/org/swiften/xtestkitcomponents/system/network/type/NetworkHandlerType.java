@@ -7,8 +7,8 @@ package org.swiften.xtestkitcomponents.system.network.type;
 import io.reactivex.Flowable;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.bool.BooleanUtil;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.string.StringUtil;
-import org.swiften.javautilities.protocol.RetryType;
 import org.swiften.xtestkitcomponents.system.network.param.GetProcessNameParam;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunnerHolderType;
@@ -90,7 +90,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
      * @see T#retries()
      */
     @NotNull
-    default <T extends PIDIdentifiableType & RetryType> Flowable<String>
+    default <T extends PIDProviderType & RetryProviderType> Flowable<String>
     rxa_getProcessName(@NotNull T param) {
         ProcessRunner runner = processRunner();
         String command = cmFindProcessName(param.pid());
@@ -134,12 +134,12 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
      * @see #processRunner()
      * @see ProcessRunner#rxa_executeStream(String)
      * @see StringUtil#isNotNullOrEmpty(String)
-     * @see #rxa_getProcessName(PIDIdentifiableType)
+     * @see #rxa_getProcessName(PIDProviderType)
      * @see T#port()
      * @see T#retries()
      */
     @NotNull
-    default  <T extends RetryType & PortType>
+    default  <T extends RetryProviderType & PortProviderType>
     Flowable<Boolean> rxa_killWithPort(@NotNull final T PARAM,
                                        @NotNull final Predicate<String> NP) {
         return processRunner()
@@ -149,7 +149,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
             .flatMap(Flowable::fromArray)
             .map(a -> GetProcessNameParam.builder()
                 .withPID(a)
-                .withRetryType(PARAM)
+                .withRetryProvider(PARAM)
                 .build())
 
             /* Here we have the opportunity to check whether a process can

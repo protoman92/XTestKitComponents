@@ -3,8 +3,8 @@ package org.swiften.xtestkitcomponents.lifecycle;
 import io.reactivex.Flowable;
 import io.reactivex.subscribers.TestSubscriber;
 import org.jetbrains.annotations.NotNull;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.rx.CustomTestSubscriber;
-import org.swiften.javautilities.protocol.RetryType;
 
 /**
  * Created by haipham on 8/6/17.
@@ -12,40 +12,40 @@ import org.swiften.javautilities.protocol.RetryType;
 public interface TestLifecycleType {
     /**
      * Execute this in {@link org.testng.annotations.BeforeClass}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @return {@link Flowable} instance.
      */
-    @NotNull Flowable<Boolean> rxa_beforeClass(@NotNull RetryType param);
+    @NotNull Flowable<Boolean> rxa_beforeClass(@NotNull RetryProviderType param);
 
     /**
      * Execute this in {@link org.testng.annotations.AfterClass}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @return {@link Flowable} instance.
      */
-    @NotNull Flowable<Boolean> rxa_afterClass(@NotNull RetryType param);
+    @NotNull Flowable<Boolean> rxa_afterClass(@NotNull RetryProviderType param);
 
     /**
      * Execute this in {@link org.testng.annotations.BeforeMethod}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @return {@link Flowable} instance.
      */
-    @NotNull Flowable<Boolean> rxa_beforeMethod(@NotNull RetryType param);
+    @NotNull Flowable<Boolean> rxa_beforeMethod(@NotNull RetryProviderType param);
 
     /**
      * Execute this in {@link org.testng.annotations.AfterMethod}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @return {@link Flowable} instance.
      */
-    @NotNull Flowable<Boolean> rxa_afterMethod(@NotNull RetryType param);
+    @NotNull Flowable<Boolean> rxa_afterMethod(@NotNull RetryProviderType param);
 
     /**
      * Convenience execution for {@link org.testng.annotations.BeforeClass}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @see #assertLifecycle(TestSubscriber)
-     * @see #rxa_beforeClass(RetryType)
+     * @see #rxa_beforeClass(RetryProviderType)
      */
     @SuppressWarnings("unchecked")
-    default void beforeClass(@NotNull RetryType param) {
+    default void beforeClass(@NotNull RetryProviderType param) {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_beforeClass(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
@@ -54,12 +54,12 @@ public interface TestLifecycleType {
 
     /**
      * Convenience execution for {@link org.testng.annotations.AfterClass}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @see #assertLifecycle(TestSubscriber)
-     * @see #rxa_afterClass(RetryType)
+     * @see #rxa_afterClass(RetryProviderType)
      */
     @SuppressWarnings("unchecked")
-    default void afterClass(@NotNull RetryType param) {
+    default void afterClass(@NotNull RetryProviderType param) {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_afterClass(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
@@ -68,12 +68,12 @@ public interface TestLifecycleType {
 
     /**
      * Convenience execution for {@link org.testng.annotations.BeforeMethod}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @see #assertLifecycle(TestSubscriber)
-     * @see #rxa_beforeMethod(RetryType)
+     * @see #rxa_beforeMethod(RetryProviderType)
      */
     @SuppressWarnings("unchecked")
-    default void beforeMethod(@NotNull RetryType param) {
+    default void beforeMethod(@NotNull RetryProviderType param) {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_beforeMethod(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();
@@ -82,12 +82,12 @@ public interface TestLifecycleType {
 
     /**
      * Convenience execution for {@link org.testng.annotations.AfterMethod}.
-     * @param param {@link RetryType} instance.
+     * @param param {@link RetryProviderType} instance.
      * @see #assertLifecycle(TestSubscriber)
-     * @see #rxa_afterMethod(RetryType)
+     * @see #rxa_afterMethod(RetryProviderType)
      */
     @SuppressWarnings("unchecked")
-    default void afterMethod(@NotNull RetryType param) {
+    default void afterMethod(@NotNull RetryProviderType param) {
         TestSubscriber subscriber = CustomTestSubscriber.create();
         rxa_afterMethod(param).subscribe(subscriber);
         subscriber.awaitTerminalEvent();

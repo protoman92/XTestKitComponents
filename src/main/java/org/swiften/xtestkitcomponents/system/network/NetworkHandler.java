@@ -2,12 +2,12 @@ package org.swiften.xtestkitcomponents.system.network;
 
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.schedulers.Schedulers;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.rx.RxUtil;
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.bool.BooleanUtil;
-import org.swiften.javautilities.protocol.RetryType;
 import org.swiften.xtestkitcomponents.system.network.type.*;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 
@@ -26,7 +26,7 @@ public class NetworkHandler implements NetworkHandlerType {
 
     /**
      * This {@link AtomicBoolean} is used when
-     * {@link #rxa_checkUntilPortAvailable(PortType)} is called. Basically
+     * {@link #rxa_checkUntilPortAvailable(PortProviderType)} is called. Basically
      * it only allows for one checking process to run at a time, no matter
      * how many are running in parallel. This is to avoid duplicate ports
      * marked as used.
@@ -128,7 +128,7 @@ public class NetworkHandler implements NetworkHandlerType {
      * @see #isPortAvailable(String, int)
      */
     @NotNull
-    public <T extends PortType & RetryType> Flowable<Boolean>
+    public <T extends PortProviderType & RetryProviderType> Flowable<Boolean>
     rxa_checkPortAvailable(@NonNull final T PARAM) {
         final NetworkHandler THIS = this;
         ProcessRunner processRunner = processRunner();
@@ -172,16 +172,16 @@ public class NetworkHandler implements NetworkHandlerType {
      * @see BooleanUtil#isFalse(boolean)
      * @see P#port()
      * @see P#retries()
-     * @see #rxa_checkPortAvailable(PortType)
+     * @see #rxa_checkPortAvailable(PortProviderType)
      * @see #NO_PORT_AVAILABLE
      */
     @NotNull
-    public <P extends PortType & MaxPortType & PortStepType & RetryType>
+    public <P extends PortProviderType & MaxPortType & PortStepProviderType & RetryProviderType>
     Flowable<Integer> rxa_checkUntilPortAvailable(@NonNull final P PARAM) {
         final NetworkHandler THIS = this;
 
         /* Temporary param that handles both port values and checks */
-        class CheckPort implements PortType, MaxPortType, PortStepType, RetryType {
+        class CheckPort implements PortProviderType, MaxPortType, PortStepProviderType, RetryProviderType {
             private final int PORT;
 
             @SuppressWarnings("WeakerAccess")

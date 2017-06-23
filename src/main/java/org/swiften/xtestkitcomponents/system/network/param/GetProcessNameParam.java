@@ -5,16 +5,16 @@ package org.swiften.xtestkitcomponents.system.network.param;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.protocol.RetryType;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.util.Constants;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
-import org.swiften.xtestkitcomponents.system.network.type.PIDIdentifiableType;
+import org.swiften.xtestkitcomponents.system.network.type.PIDProviderType;
 
 /**
  * Parameter object for
- * {@link NetworkHandler#rxa_getProcessName(PIDIdentifiableType)}
+ * {@link NetworkHandler#rxa_getProcessName(PIDProviderType)}
  */
-public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
+public class GetProcessNameParam implements PIDProviderType, RetryProviderType {
     /**
      * Get {@link Builder} instance.
      * @return {@link Builder} instance.
@@ -79,13 +79,13 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
 
         /**
          * Set the {@link #pid} value.
-         * @param param {@link PIDIdentifiableType} instance.
+         * @param param {@link PIDProviderType} instance.
          * @return {@link Builder} instance.
-         * @see PIDIdentifiableType#pid()
+         * @see PIDProviderType#pid()
          * @see #withPID(String)
          */
         @NotNull
-        public Builder withPIDProtocol(@NotNull PIDIdentifiableType param) {
+        public Builder withPIDProvider(@NotNull PIDProviderType param) {
             return withPID(param.pid());
         }
 
@@ -103,13 +103,13 @@ public class GetProcessNameParam implements PIDIdentifiableType, RetryType {
 
         /**
          * Set the {@link #retries} value.
-         * @param param {@link RetryType} instance.
+         * @param param {@link RetryProviderType} instance.
          * @return {@link Builder} instance.
-         * @see RetryType#retries()
+         * @see RetryProviderType#retries()
          * @see #withRetries(int)
          */
         @NotNull
-        public Builder withRetryType(@NotNull RetryType param) {
+        public Builder withRetryProvider(@NotNull RetryProviderType param) {
             return withRetries(param.retries());
         }
 

@@ -8,7 +8,7 @@ package org.swiften.xtestkitcomponents.system.network.type;
  * This interface provides a port value.
  */
 @FunctionalInterface
-public interface PortType {
+public interface PortProviderType {
     /**
      * Get the associated port value.
      * @return {@link Integer} value.

@@ -3,7 +3,7 @@ package org.swiften.xtestkitcomponents.system;
 import io.reactivex.Flowable;
 import io.reactivex.subscribers.TestSubscriber;
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.protocol.RetryType;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.rx.CustomTestSubscriber;
 import org.swiften.javautilities.rx.RxUtil;
 import org.swiften.javautilities.util.Constants;
@@ -11,8 +11,8 @@ import org.swiften.javautilities.util.LogUtil;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
 import org.swiften.xtestkitcomponents.system.network.type.NetworkHandlerErrorType;
-import org.swiften.xtestkitcomponents.system.network.type.PortStepType;
-import org.swiften.xtestkitcomponents.system.network.type.PortType;
+import org.swiften.xtestkitcomponents.system.network.type.PortStepProviderType;
+import org.swiften.xtestkitcomponents.system.network.type.PortProviderType;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import org.testng.annotations.AfterMethod;
 import org.testng.annotations.BeforeMethod;
@@ -137,7 +137,7 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
         assertEquals(used.size(), tries);
     }
 
-    private static final class CheckPort implements PortType, MaxPortType, PortStepType, RetryType {
+    private static final class CheckPort implements PortProviderType, MaxPortType, PortStepProviderType, RetryProviderType {
         private final int PORT;
 
         CheckPort(int port) {

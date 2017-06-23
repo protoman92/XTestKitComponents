@@ -11,6 +11,4 @@ import org.swiften.javautilities.localizer.LCFormat;
  * that involve {@link java.text.MessageFormat}.
  */
 @FunctionalInterface
-public interface FormatType extends
-    ValueType<LCFormat>,
-    IgnoreCaseType {}
+public interface FormatProviderType extends ValueType<LCFormat>, IgnoreCaseType {}

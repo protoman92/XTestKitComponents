@@ -8,4 +8,4 @@ package org.swiften.xtestkitcomponents.property.base;
  * This interface is the base for {@link String}-related locator operations.
  */
 @FunctionalInterface
-public interface StringType extends ValueType<String>, IgnoreCaseType {}
+public interface StringProviderType extends ValueType<String>, IgnoreCaseType {}

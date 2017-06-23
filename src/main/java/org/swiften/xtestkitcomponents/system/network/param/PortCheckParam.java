@@ -1,11 +1,11 @@
 package org.swiften.xtestkitcomponents.system.network.param;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.protocol.RetryType;
+import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.util.Constants;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
-import org.swiften.xtestkitcomponents.system.network.type.PortStepType;
-import org.swiften.xtestkitcomponents.system.network.type.PortType;
+import org.swiften.xtestkitcomponents.system.network.type.PortStepProviderType;
+import org.swiften.xtestkitcomponents.system.network.type.PortProviderType;
 
 /**
  * Created by haipham on 18/5/17.
@@ -13,9 +13,9 @@ import org.swiften.xtestkitcomponents.system.network.type.PortType;
 
 /**
  * Parameter object for
- * {@link org.swiften.xtestkitcomponents.system.network.NetworkHandler#rxa_checkUntilPortAvailable(PortType)}
+ * {@link org.swiften.xtestkitcomponents.system.network.NetworkHandler#rxa_checkUntilPortAvailable(PortProviderType)}
  */
-public class PortCheckParam implements PortType, MaxPortType, PortStepType, RetryType {
+public class PortCheckParam implements PortProviderType, MaxPortType, PortStepProviderType, RetryProviderType {
     /**
      * Get {@link Builder} instance.
      * @return {@link Builder} instance.
@@ -30,7 +30,7 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
     PortCheckParam() {
         port = 0;
         maxPort = MaxPortType.super.maxPort();
-        portStep = PortStepType.super.portStep();
+        portStep = PortStepProviderType.super.portStep();
         retries = Constants.DEFAULT_RETRIES;
     }
 
@@ -112,12 +112,12 @@ public class PortCheckParam implements PortType, MaxPortType, PortStepType, Retr
 
         /**
          * Set the {@link #retries} value.
-         * @param type {@link RetryType} instance.
+         * @param type {@link RetryProviderType} instance.
          * @return {@link Builder} instance.
          * @see #withRetries(int)
          */
         @NotNull
-        public Builder withRetryType(@NotNull RetryType type) {
+        public Builder withRetryProvider(@NotNull RetryProviderType type) {
             return withRetries(type.retries());
         }
 

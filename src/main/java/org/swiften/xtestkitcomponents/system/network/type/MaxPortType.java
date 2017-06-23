@@ -6,7 +6,7 @@ package org.swiften.xtestkitcomponents.system.network.type;
 
 /**
  * This interface provides a max port value. Usually it is used in tandem
- * with {@link PortType} to provide port value restrictions.
+ * with {@link PortProviderType} to provide port value restrictions.
  */
 public interface MaxPortType {
     /**

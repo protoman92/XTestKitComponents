@@ -8,7 +8,7 @@ import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.collection.CollectionUtil;
 import org.swiften.javautilities.object.ObjectUtil;
-import org.swiften.javautilities.protocol.ClassNameType;
+import org.swiften.javautilities.protocol.ClassNameProviderType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -53,14 +53,14 @@ public final class CompoundAttribute implements AttributeType {
     }
 
     /**
-     * Same as above, but uses {@link ClassNameType}.
-     * @param param {@link ClassNameType} instance.
+     * Same as above, but uses {@link ClassNameProviderType}.
+     * @param param {@link ClassNameProviderType} instance.
      * @return {@link CompoundAttribute} instance.
-     * @see ClassNameType#className()
-     * @see #forClass(ClassNameType)
+     * @see ClassNameProviderType#className()
+     * @see #forClass(ClassNameProviderType)
      */
     @NotNull
-    public static CompoundAttribute forClass(@NotNull ClassNameType param) {
+    public static CompoundAttribute forClass(@NotNull ClassNameProviderType param) {
         return forClass(param.className());
     }
 
@@ -268,14 +268,14 @@ public final class CompoundAttribute implements AttributeType {
     }
 
     /**
-     * Same as above, but uses {@link ClassNameType}.
-     * @param param {@link ClassNameType} instance.
+     * Same as above, but uses {@link ClassNameProviderType}.
+     * @param param {@link ClassNameProviderType} instance.
      * @return {@link CompoundAttribute} instance.
-     * @see ClassNameType#className()
+     * @see ClassNameProviderType#className()
      * @see #withClass(String)
      */
     @NotNull
-    public CompoundAttribute withClass(@NotNull ClassNameType param) {
+    public CompoundAttribute withClass(@NotNull ClassNameProviderType param) {
         return withClass(param.className());
     }
 
@@ -456,14 +456,14 @@ public final class CompoundAttribute implements AttributeType {
         }
 
         /**
-         * Same as above, but uses {@link ClassNameType}.
-         * @param param {@link ClassNameType} instance.
+         * Same as above, but uses {@link ClassNameProviderType}.
+         * @param param {@link ClassNameProviderType} instance.
          * @return {@link Builder} instance.
-         * @see ClassNameType#className()
+         * @see ClassNameProviderType#className()
          * @see #withClass(String)
          */
         @NotNull
-        public Builder withClass(@NotNull ClassNameType param) {
+        public Builder withClass(@NotNull ClassNameProviderType param) {
             return withClass(param.className());
         }
 

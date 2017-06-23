@@ -1,6 +1,6 @@
 package org.swiften.xtestkitcomponents.property.sub;
 
-import org.swiften.xtestkitcomponents.property.base.StringType;
+import org.swiften.xtestkitcomponents.property.base.StringProviderType;
 
 /**
  * Created by haipham on 5/9/17.
@@ -11,4 +11,4 @@ import org.swiften.xtestkitcomponents.property.base.StringType;
  * for elements of a particular class.
  */
 @FunctionalInterface
-public interface OfClassType extends StringType {}
+public interface OfClassType extends StringProviderType {}

@@ -1,6 +1,6 @@
 package org.swiften.xtestkitcomponents.view;
 
-import org.swiften.javautilities.protocol.ClassNameType;
+import org.swiften.javautilities.protocol.ClassNameProviderType;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 
 /**
@@ -12,7 +12,7 @@ import org.swiften.xtestkitcomponents.platform.PlatformType;
  * should have a set of {@link ViewType} that can be used to search for
  * elements.
  */
-public interface ViewType extends ClassNameType {
+public interface ViewType extends ClassNameProviderType {
     /**
      * Check whether the current {@link ViewType} could display {@link String}
      * text.

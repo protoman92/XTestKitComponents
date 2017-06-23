@@ -1,6 +1,6 @@
 package org.swiften.xtestkitcomponents.property.sub;
 
-import org.swiften.xtestkitcomponents.property.base.StringType;
+import org.swiften.xtestkitcomponents.property.base.StringProviderType;
 
 /**
  * Created by haipham on 5/8/17.
@@ -11,4 +11,4 @@ import org.swiften.xtestkitcomponents.property.base.StringType;
  * for elements with hint.
  */
 @FunctionalInterface
-public interface HasHintType extends StringType {}
+public interface HasHintType extends StringProviderType {}
