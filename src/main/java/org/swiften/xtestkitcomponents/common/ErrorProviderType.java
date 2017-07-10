@@ -9,6 +9,6 @@ import org.jetbrains.annotations.NotNull;
 /**
  * This interface provides basic error messages that can be used anywhere.
  */
-public interface BaseErrorType {
+public interface ErrorProviderType {
     @NotNull String NOT_AVAILABLE = "Not available";
 }

@@ -5,14 +5,13 @@ package org.swiften.xtestkitcomponents.platform;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.platform.PlatformType;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * This interface provides {@link PlatformType} for platform-specific
  * operations.
  */
-public interface PlatformProviderType extends BaseErrorType {
+public interface PlatformProviderType extends ErrorProviderType {
     /**
      * Get the associated {@link PlatformType} instance.
      * @return {@link PlatformType} instance.

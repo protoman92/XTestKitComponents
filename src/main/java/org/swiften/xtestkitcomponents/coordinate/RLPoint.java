@@ -5,13 +5,13 @@ package org.swiften.xtestkitcomponents.coordinate;
  */
 
 import org.openqa.selenium.WebElement;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * Use this {@link Enum} with {@link WebElement#getLocation()} and
  * {@link WebElement#getSize()}.
  */
-public enum RLPoint implements BaseErrorType, RLPositionType {
+public enum RLPoint implements ErrorProviderType, RLPositionType {
     MIN,
     MID,
     MAX;

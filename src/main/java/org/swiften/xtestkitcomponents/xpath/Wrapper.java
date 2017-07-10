@@ -5,13 +5,13 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * This {@link Enum} contains formatter that encloses the entire
  * {@link Attribute}, i.e. {@link Attribute#baseAttribute()}.
  */
-public enum Wrapper implements BaseErrorType {
+public enum Wrapper implements ErrorProviderType {
     BASIC,
     NOT,
     NONE;

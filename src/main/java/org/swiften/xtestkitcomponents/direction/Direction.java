@@ -6,13 +6,13 @@ package org.swiften.xtestkitcomponents.direction;
 
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.CollectionUtil;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * This enum provides simplistic directions for certain actions such as
  * swipes.
  */
-public enum Direction implements BaseErrorType {
+public enum Direction implements ErrorProviderType {
     UP_DOWN,
     DOWN_UP,
     LEFT_RIGHT,

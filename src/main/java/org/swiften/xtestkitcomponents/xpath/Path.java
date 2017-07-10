@@ -5,12 +5,12 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * Use this to specify how child elements are queried.
  */
-public enum Path implements BaseErrorType {
+public enum Path implements ErrorProviderType {
     ANY,
     DIRECT,
     NONE;

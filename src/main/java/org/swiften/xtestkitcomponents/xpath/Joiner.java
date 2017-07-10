@@ -1,12 +1,12 @@
 package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * Created by haipham on 13/6/17.
  */
-public enum Joiner implements BaseErrorType {
+public enum Joiner implements ErrorProviderType {
     AND,
     OR;
 

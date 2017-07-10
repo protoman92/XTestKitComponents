@@ -1,9 +1,8 @@
 package org.swiften.xtestkitcomponents.xpath;
 
-import io.reactivex.annotations.NonNull;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.CollectionUtil;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 import java.util.Collection;
 import java.util.Collections;
@@ -104,7 +103,7 @@ public class XPath {
     /**
      * Builder class for {@link XPath}.
      */
-    public static class Builder implements BaseErrorType {
+    public static class Builder implements ErrorProviderType {
         @NotNull private final XPath XPATH;
 
         protected Builder() {

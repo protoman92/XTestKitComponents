@@ -5,12 +5,12 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
  * Use this to add axis to {@link CompoundAttribute}.
  */
-public enum Axis implements BaseErrorType {
+public enum Axis implements ErrorProviderType {
     CHILD,
     DESCENDANT,
     FOLLOWING_SIBLING,

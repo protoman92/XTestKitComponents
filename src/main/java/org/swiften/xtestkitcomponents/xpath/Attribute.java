@@ -7,7 +7,7 @@ package org.swiften.xtestkitcomponents.xpath;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.swiften.javautilities.object.ObjectUtil;
-import org.swiften.xtestkitcomponents.common.BaseErrorType;
+import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
  * This class is used to deal with multiple attributes being used to describe
  * the same thing.
  */
-public final class Attribute<T> implements AttributeType, BaseErrorType {
+public final class Attribute<T> implements AttributeType, ErrorProviderType {
     /**
      * Get {@link Builder} instance.
      * @return {@link Builder} instance.
