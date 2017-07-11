@@ -20,12 +20,6 @@ public enum Axis implements ErrorProviderType {
     /**
      * Get the associated symbol {@link String}.
      * @return {@link String} value.
-     * @see #CHILD
-     * @see #DESCENDANT
-     * @see #FOLLOWING_SIBLING
-     * @see #PRECEDING_SIBLING
-     * @see #NONE
-     * @see #NOT_AVAILABLE
      */
     @NotNull
     public String symbol() {
