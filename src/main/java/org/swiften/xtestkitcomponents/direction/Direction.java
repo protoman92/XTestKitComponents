@@ -5,7 +5,7 @@ package org.swiften.xtestkitcomponents.direction;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.collection.CollectionUtil;
+import org.swiften.javautilities.collection.HPIterables;
 import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 /**
@@ -51,25 +51,25 @@ public enum Direction implements ErrorProviderType {
     /**
      * Get a random vertical {@link Direction}.
      * @return {@link Direction} instance.
-     * @see CollectionUtil#randomElement(Object[])
+     * @see HPIterables#randomElement(Object[])
      * @see #DOWN_UP
      * @see #UP_DOWN
      */
     @NotNull
     public static Direction randomVertical() {
-        return CollectionUtil.randomElement(UP_DOWN, DOWN_UP);
+        return HPIterables.randomElement(UP_DOWN, DOWN_UP);
     }
 
     /**
      * Get a random horizontal {@link Direction}.
      * @return {@link Direction} instance.
-     * @see CollectionUtil#randomElement(Object[])
+     * @see HPIterables#randomElement(Object[])
      * @see #LEFT_RIGHT
      * @see #RIGHT_LEFT
      */
     @NotNull
     public static Direction randomHorizontal() {
-        return CollectionUtil.randomElement(LEFT_RIGHT, RIGHT_LEFT);
+        return HPIterables.randomElement(LEFT_RIGHT, RIGHT_LEFT);
     }
 
     /**

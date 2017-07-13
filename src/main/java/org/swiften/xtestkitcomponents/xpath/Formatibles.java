@@ -5,7 +5,7 @@ package org.swiften.xtestkitcomponents.xpath;
  */
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.string.StringUtil;
+import org.swiften.javautilities.string.HPStrings;
 import org.swiften.xtestkitcomponents.property.base.IgnoreCaseType;
 
 import java.util.LinkedList;
@@ -49,12 +49,12 @@ public final class Formatibles {
          * @see Formatible#stringFormat(Object)
          * @see QuoteMark#from(String)
          * @see QuoteMark#wrapInQuotation(String)
-         * @see StringUtil#requireNotNullOrEmpty(String)
+         * @see HPStrings#requireNotNullOrEmpty(String)
          */
         @NotNull
         @Override
         default String formatValue(@NotNull String value) {
-            StringUtil.requireNotNullOrEmpty(value);
+            HPStrings.requireNotNullOrEmpty(value);
             String fQuote = "", lQuote = "";
             List<String> fParts = new LinkedList<>();
 

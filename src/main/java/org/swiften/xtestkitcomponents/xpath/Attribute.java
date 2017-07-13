@@ -6,7 +6,7 @@ package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.swiften.javautilities.object.ObjectUtil;
+import org.swiften.javautilities.object.HPObjects;
 import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 import java.util.ArrayList;
@@ -82,7 +82,7 @@ public final class Attribute<T> implements AttributeType, ErrorProviderType {
     /**
      * Get {@link #formatible}.
      * @return {@link Formatible} instance.
-     * @see ObjectUtil#nonNull(Object)
+     * @see HPObjects#nonNull(Object)
      * @see #formatible
      */
     @NotNull
@@ -93,14 +93,14 @@ public final class Attribute<T> implements AttributeType, ErrorProviderType {
     /**
      * Get {@link #value}.
      * @return {@link Object} instance.
-     * @see ObjectUtil#requireNotNull(Object, String)
+     * @see HPObjects#requireNotNull(Object, String)
      * @see #value
      * @see #NOT_AVAILABLE
      */
     @NotNull
     @SuppressWarnings("ConstantConditions")
     public T value() {
-        ObjectUtil.requireNotNull(value, NOT_AVAILABLE);
+        HPObjects.requireNotNull(value, NOT_AVAILABLE);
         return value;
     }
 

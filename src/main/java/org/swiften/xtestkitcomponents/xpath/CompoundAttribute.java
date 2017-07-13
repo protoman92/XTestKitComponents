@@ -6,8 +6,8 @@ package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.swiften.javautilities.collection.CollectionUtil;
-import org.swiften.javautilities.object.ObjectUtil;
+import org.swiften.javautilities.collection.HPIterables;
+import org.swiften.javautilities.object.HPObjects;
 import org.swiften.javautilities.protocol.ClassNameProviderType;
 
 import java.util.Collection;
@@ -209,7 +209,7 @@ public final class CompoundAttribute implements AttributeType {
     /**
      * Get {@link #attributeWithPath()}, including {@link #index}.
      * @return {@link String} value.
-     * @see ObjectUtil#nonNull(Object)
+     * @see HPObjects#nonNull(Object)
      * @see #attributeWithPath()
      * @see #index()
      */
@@ -218,7 +218,7 @@ public final class CompoundAttribute implements AttributeType {
         String withDM = attributeWithPath();
         Integer index = index();
 
-        if (ObjectUtil.nonNull(index)) {
+        if (HPObjects.nonNull(index)) {
             return String.format("%s[%d]", withDM, index);
         } else {
             return withDM;
@@ -316,12 +316,12 @@ public final class CompoundAttribute implements AttributeType {
      * Same as above, but uses a varargs of {@link AttributeType}.
      * @param attrs Varargs of {@link AttributeType}.
      * @return {@link CompoundAttribute} instance.
-     * @see CollectionUtil#asList(Object[])
+     * @see HPIterables#asList(Object[])
      * @see #addAttribute(Collection)
      */
     @NotNull
     public CompoundAttribute addAttribute(@NotNull AttributeType...attrs) {
-        return addAttribute(CollectionUtil.asList(attrs));
+        return addAttribute(HPIterables.asList(attrs));
     }
 
     /**
@@ -398,12 +398,12 @@ public final class CompoundAttribute implements AttributeType {
          * Add {@link AttributeType} to {@link #ATTRIBUTES}.
          * @param attributes Varargs of {@link AttributeType}.
          * @return {@link Builder} instance.
-         * @see CollectionUtil#asList(Object[])
+         * @see HPIterables#asList(Object[])
          * @see #addAttribute(Collection)
          */
         @NotNull
         public Builder addAttribute(@NotNull AttributeType...attributes) {
-            return addAttribute(CollectionUtil.asList(attributes));
+            return addAttribute(HPIterables.asList(attributes));
         }
 
         /**

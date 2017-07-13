@@ -1,7 +1,7 @@
 package org.swiften.xtestkitcomponents.system;
 
+import org.swiften.javautilities.rx.HPReactives;
 import org.swiften.javautilities.util.LogUtil;
-import org.swiften.javautilities.rx.RxUtil;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import io.reactivex.Flowable;
 import io.reactivex.subscribers.TestSubscriber;
@@ -39,7 +39,7 @@ public final class ProcessRunnerTest {
     public void test_runProcessWithError_shouldThrow() {
         try {
             // Setup
-            doReturn(RxUtil.error()).when(RUNNER).rxa_execute(any());
+            doReturn(HPReactives.error()).when(RUNNER).rxa_execute(any());
             TestSubscriber subscriber = CustomTestSubscriber.create();
 
             // When

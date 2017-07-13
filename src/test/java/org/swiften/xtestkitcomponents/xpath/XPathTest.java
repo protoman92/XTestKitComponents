@@ -1,7 +1,7 @@
 package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.collection.CollectionUtil;
+import org.swiften.javautilities.collection.HPIterables;
 import org.swiften.javautilities.util.LogUtil;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 import org.testng.annotations.Test;
@@ -68,7 +68,7 @@ public final class XPathTest {
             @NotNull
             @Override
             public List<String> textAttribute() {
-                return CollectionUtil.asList("text", "value", "label");
+                return HPIterables.asList("text", "value", "label");
             }
         };
 

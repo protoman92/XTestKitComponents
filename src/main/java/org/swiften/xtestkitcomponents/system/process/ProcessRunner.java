@@ -6,7 +6,7 @@ import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.exec.*;
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.util.LogUtil;
-import org.swiften.javautilities.object.ObjectUtil;
+import org.swiften.javautilities.object.HPObjects;
 
 import java.io.*;
 import java.util.function.Consumer;
@@ -31,7 +31,7 @@ public class ProcessRunner {
      * @param onError {@link Consumer} instance to process {@link IOException}.
      * @param onComplete {@link Runnable} instance to process completion.
      * @see Consumer#accept(Object)
-     * @see ObjectUtil#nonNull(Object)
+     * @see HPObjects#nonNull(Object)
      * @see Runnable#run()
      * @see #logCommand(String)
      */
@@ -52,7 +52,7 @@ public class ProcessRunner {
         try {
             executor.execute(commandLine);
             String output = outputStream.toString();
-            output = ObjectUtil.nonNull(output) ? output : "";
+            output = HPObjects.nonNull(output) ? output : "";
             onNext.accept(output);
             onComplete.run();
         } catch (IOException e) {
@@ -131,7 +131,7 @@ public class ProcessRunner {
      * @param onError {@link Consumer} instance to consume {@link IOException}.
      * @param onComplete {@link Runnable} instance to handle completion.
      * @see Consumer#accept(Object)
-     * @see ObjectUtil#nonNull(Object)
+     * @see HPObjects#nonNull(Object)
      * @see Runnable#run()
      * @see #logCommand(String)
      */
@@ -161,7 +161,7 @@ public class ProcessRunner {
 
             String line;
 
-            while (ObjectUtil.nonNull(line = bufferedReader.readLine())) {
+            while (HPObjects.nonNull(line = bufferedReader.readLine())) {
                 onNext.accept(line);
             }
 
@@ -175,15 +175,15 @@ public class ProcessRunner {
                 pump.stop();
                 output.close();
 
-                if (ObjectUtil.nonNull(inputStream)) {
+                if (HPObjects.nonNull(inputStream)) {
                     inputStream.close();
                 }
 
-                if (ObjectUtil.nonNull(streamReader)) {
+                if (HPObjects.nonNull(streamReader)) {
                     streamReader.close();
                 }
 
-                if (ObjectUtil.nonNull(bufferedReader)) {
+                if (HPObjects.nonNull(bufferedReader)) {
                     bufferedReader.close();
                 }
             } catch (IOException e) {

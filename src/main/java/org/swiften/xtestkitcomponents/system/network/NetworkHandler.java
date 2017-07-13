@@ -3,11 +3,11 @@ package org.swiften.xtestkitcomponents.system.network;
 import io.reactivex.BackpressureStrategy;
 import io.reactivex.schedulers.Schedulers;
 import org.swiften.javautilities.protocol.RetryProviderType;
-import org.swiften.javautilities.rx.RxUtil;
+import org.swiften.javautilities.rx.HPReactives;
 import io.reactivex.Flowable;
 import io.reactivex.annotations.NonNull;
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.bool.BooleanUtil;
+import org.swiften.javautilities.bool.HPBooleans;
 import org.swiften.xtestkitcomponents.system.network.type.*;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 
@@ -168,8 +168,8 @@ public class NetworkHandler implements NetworkHandlerType {
      *              initial port to be checked.
      * @param <P> Generics parameter.
      * @return {@link Flowable} instance.
-     * @see BooleanUtil#isTrue(boolean)
-     * @see BooleanUtil#isFalse(boolean)
+     * @see HPBooleans#isTrue(boolean)
+     * @see HPBooleans#isFalse(boolean)
      * @see P#port()
      * @see P#retries()
      * @see #rxa_checkPortAvailable(PortProviderType)
@@ -217,7 +217,7 @@ public class NetworkHandler implements NetworkHandlerType {
                 if (PORT < maxPort()) {
                     return THIS.rxa_checkPortAvailable(this)
                         .flatMap(a -> {
-                            if (BooleanUtil.isTrue(a)) {
+                            if (HPBooleans.isTrue(a)) {
                                 return Flowable.just(PORT);
                             } else {
                                 int newPort = PORT + STEP;
@@ -226,7 +226,7 @@ public class NetworkHandler implements NetworkHandlerType {
                             }
                         });
                 } else {
-                    return RxUtil.error(NO_PORT_AVAILABLE);
+                    return HPReactives.error(NO_PORT_AVAILABLE);
                 }
             }
         }
@@ -246,7 +246,7 @@ public class NetworkHandler implements NetworkHandlerType {
             .serialize()
             .subscribeOn(Schedulers.io())
             .observeOn(Schedulers.io())
-            .map(BooleanUtil::toTrue)
+            .map(HPBooleans::toTrue)
             .flatMap(a -> new CheckPort(PARAM.port()).check())
             .doOnNext(THIS::markPortUsed)
             .doFinally(() -> AVAILABLE_TO_POLL_PORT.set(true));

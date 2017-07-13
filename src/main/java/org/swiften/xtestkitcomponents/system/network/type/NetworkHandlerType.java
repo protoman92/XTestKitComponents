@@ -6,9 +6,9 @@ package org.swiften.xtestkitcomponents.system.network.type;
 
 import io.reactivex.Flowable;
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.bool.BooleanUtil;
+import org.swiften.javautilities.bool.HPBooleans;
 import org.swiften.javautilities.protocol.RetryProviderType;
-import org.swiften.javautilities.string.StringUtil;
+import org.swiften.javautilities.string.HPStrings;
 import org.swiften.xtestkitcomponents.system.network.param.GetProcessNameParam;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunnerHolderType;
@@ -119,7 +119,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
 
                 return Flowable.error(t);
             })
-            .map(BooleanUtil::toTrue)
+            .map(HPBooleans::toTrue)
             .defaultIfEmpty(true);
     }
 
@@ -133,7 +133,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
      * @return {@link Flowable} instance.
      * @see #processRunner()
      * @see ProcessRunner#rxa_executeStream(String)
-     * @see StringUtil#isNotNullOrEmpty(String)
+     * @see HPStrings#isNotNullOrEmpty(String)
      * @see #rxa_getProcessName(PIDProviderType)
      * @see T#port()
      * @see T#retries()
@@ -144,7 +144,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
                                        @NotNull final Predicate<String> NP) {
         return processRunner()
             .rxa_execute(cmFindPID(PARAM.port()))
-            .filter(StringUtil::isNotNullOrEmpty)
+            .filter(HPStrings::isNotNullOrEmpty)
             .map(a -> a.split("\n"))
             .flatMap(Flowable::fromArray)
             .map(a -> GetProcessNameParam.builder()
@@ -162,7 +162,7 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
             .defaultIfEmpty(true)
             .retry(PARAM.retries())
             .onErrorReturnItem(true)
-            .all(BooleanUtil::isTrue)
+            .all(HPBooleans::isTrue)
             .toFlowable();
     }
 
@@ -174,19 +174,19 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
      * @see ProcessRunner#rxa_executeStream(String)
      * @see #cmFindPID(String)
      * @see #rxa_killWithPID(String)
-     * @see BooleanUtil#isTrue(boolean)
+     * @see HPBooleans#isTrue(boolean)
      */
     @NotNull
     default Flowable<Boolean> rxa_killWithName(@NotNull String name) {
         return processRunner()
             .rxa_execute(cmFindPID(name))
-            .filter(StringUtil::isNotNullOrEmpty)
+            .filter(HPStrings::isNotNullOrEmpty)
             .map(a -> a.split("\n"))
             .flatMap(Flowable::fromArray)
             .flatMap(this::rxa_killWithPID)
             .defaultIfEmpty(true)
             .onErrorReturnItem(true)
-            .all(BooleanUtil::isTrue)
+            .all(HPBooleans::isTrue)
             .toFlowable();
     }
 
@@ -197,10 +197,10 @@ public interface NetworkHandlerType extends ProcessRunnerHolderType, NetworkHand
      * @see #processRunner()
      * @see ProcessRunner#rxa_executeStream(String)
      * @see #cmKillAll(String)
-     * @see BooleanUtil#toTrue(Object)
+     * @see HPBooleans#toTrue(Object)
      */
     @NotNull
     default Flowable<Boolean> rxa_killAll(@NotNull String name) {
-        return processRunner().rxa_execute(cmKillAll(name)).map(BooleanUtil::toTrue);
+        return processRunner().rxa_execute(cmKillAll(name)).map(HPBooleans::toTrue);
     }
 }

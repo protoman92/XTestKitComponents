@@ -1,7 +1,7 @@
 package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.collection.CollectionUtil;
+import org.swiften.javautilities.collection.HPIterables;
 import org.swiften.xtestkitcomponents.common.ErrorProviderType;
 
 import java.util.Collection;
@@ -73,12 +73,12 @@ public class XPath {
      * Same as above, but uses a varargs of {@link Attribute}.
      * @param attrs Varargs of {@link AttributeType} instance.
      * @return {@link XPath} instance.
-     * @see CollectionUtil#asList(Object[])
+     * @see HPIterables#asList(Object[])
      * @see #addToEach(Collection)
      */
     @NotNull
     public XPath addToEach(@NotNull AttributeType...attrs) {
-        return addToEach(CollectionUtil.asList(attrs));
+        return addToEach(HPIterables.asList(attrs));
     }
 
     /**
