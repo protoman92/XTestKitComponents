@@ -2,7 +2,7 @@ package org.swiften.xtestkitcomponents.xpath;
 
 import org.jetbrains.annotations.NotNull;
 import org.swiften.javautilities.collection.HPIterables;
-import org.swiften.javautilities.util.LogUtil;
+import org.swiften.javautilities.util.HPLog;
 import org.swiften.xtestkitcomponents.platform.PlatformType;
 import org.testng.annotations.Test;
 
@@ -49,10 +49,10 @@ public final class XPathTest {
             .build();
 
         // When & Then
-        LogUtil.println(xpath1.attribute());
-        LogUtil.println(xpath2.attribute());
-        LogUtil.println(xpath3.attribute());
-        LogUtil.println(xpath4.attribute());
+        HPLog.println(xpath1.attribute());
+        HPLog.println(xpath2.attribute());
+        HPLog.println(xpath3.attribute());
+        HPLog.println(xpath4.attribute());
     }
 
     @Test
@@ -82,15 +82,15 @@ public final class XPathTest {
             .build();
 
         // When & Then
-        LogUtil.println(CompoundAttribute.empty());
-        LogUtil.println(CompoundAttribute.forClass("TC"));
-        LogUtil.println(attribute);
-        LogUtil.println(attribute.not());
-        LogUtil.println(attrs.containsID("test-id"));
-        LogUtil.println(attrs.atIndex(1));
-        LogUtil.println(attrs.hasText("test-text"));
-        LogUtil.println(attrs.containsText("test-text"));
-        LogUtil.println(attrs.isEnabled(true));
+        HPLog.println(CompoundAttribute.empty());
+        HPLog.println(CompoundAttribute.forClass("TC"));
+        HPLog.println(attribute);
+        HPLog.println(attribute.not());
+        HPLog.println(attrs.containsID("test-id"));
+        HPLog.println(attrs.atIndex(1));
+        HPLog.println(attrs.hasText("test-text"));
+        HPLog.println(attrs.containsText("test-text"));
+        HPLog.println(attrs.isEnabled(true));
     }
 
     @Test
@@ -115,9 +115,9 @@ public final class XPathTest {
             .build();
 
         // When & Then
-        LogUtil.println(a1);
-        LogUtil.println(a2);
-        LogUtil.println(a3);
+        HPLog.println(a1);
+        HPLog.println(a2);
+        HPLog.println(a3);
     }
 
     @Test
@@ -137,6 +137,6 @@ public final class XPathTest {
             .build();
 
         // Then
-        LogUtil.println(xp1);
+        HPLog.println(xp1);
     }
 }

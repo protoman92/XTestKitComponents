@@ -5,7 +5,7 @@ import io.reactivex.Flowable;
 import io.reactivex.schedulers.Schedulers;
 import org.apache.commons.exec.*;
 import org.jetbrains.annotations.NotNull;
-import org.swiften.javautilities.util.LogUtil;
+import org.swiften.javautilities.util.HPLog;
 import org.swiften.javautilities.object.HPObjects;
 
 import java.io.*;
@@ -20,7 +20,7 @@ public class ProcessRunner {
      * @param args {@link String} command to be executed.
      */
     private void logCommand(@NotNull String args) {
-        LogUtil.printft("Executing '%s'", args);
+        HPLog.printft("Executing '%s'", args);
     }
 
     /**
@@ -58,7 +58,7 @@ public class ProcessRunner {
         } catch (IOException e) {
             String err = e.getMessage();
             String error = outputStream.toString();
-            LogUtil.printft("Error running '%s': '%s' - %s", args, err, error);
+            HPLog.printft("Error running '%s': '%s' - %s", args, err, error);
             onError.accept(e);
         } finally {
             try {
@@ -90,7 +90,7 @@ public class ProcessRunner {
      * @see #execute(String, Consumer, Consumer)
      */
     public void execute(@NotNull String args, @NotNull Consumer<String> onNext) {
-        execute(args, onNext, LogUtil::println);
+        execute(args, onNext, HPLog::println);
     }
 
     /**
@@ -99,7 +99,7 @@ public class ProcessRunner {
      * @see #execute(String, Consumer)
      */
     public void execute(@NotNull String args) {
-        execute(args, LogUtil::println);
+        execute(args, HPLog::println);
     }
 
     /**
@@ -120,7 +120,7 @@ public class ProcessRunner {
             .serialize()
             .subscribeOn(Schedulers.computation())
             .observeOn(Schedulers.computation())
-            .doOnError(e -> LogUtil.printft("Error %s with %s", e, ARGS));
+            .doOnError(e -> HPLog.printft("Error %s with %s", e, ARGS));
     }
 
     /**
@@ -168,7 +168,7 @@ public class ProcessRunner {
             onComplete.run();
         } catch (IOException e) {
             String err = e.getMessage();
-            LogUtil.printf("Error running '%s': '%s'", args, err);
+            HPLog.printf("Error running '%s': '%s'", args, err);
             onError.accept(e);
         } finally {
             try {
@@ -212,7 +212,7 @@ public class ProcessRunner {
      * @see #executeStream(String, Consumer, Consumer)
      */
     public void executeStream(@NotNull String args, @NotNull Consumer<String> onNext) {
-        executeStream(args, onNext, LogUtil::println);
+        executeStream(args, onNext, HPLog::println);
     }
 
     /**
@@ -221,7 +221,7 @@ public class ProcessRunner {
      * @see #executeStream(String, Consumer)
      */
     public void executeStream(@NotNull String args) {
-        executeStream(args, LogUtil::println);
+        executeStream(args, HPLog::println);
     }
 
     /**

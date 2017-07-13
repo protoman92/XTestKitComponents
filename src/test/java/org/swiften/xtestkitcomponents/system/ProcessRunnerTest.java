@@ -1,7 +1,7 @@
 package org.swiften.xtestkitcomponents.system;
 
 import org.swiften.javautilities.rx.HPReactives;
-import org.swiften.javautilities.util.LogUtil;
+import org.swiften.javautilities.util.HPLog;
 import org.swiften.xtestkitcomponents.system.process.ProcessRunner;
 import io.reactivex.Flowable;
 import io.reactivex.subscribers.TestSubscriber;
@@ -116,9 +116,9 @@ public final class ProcessRunnerTest {
 
         // When
         RUNNER.rxa_executeStream(args)
-            .doOnNext(LogUtil::println)
+            .doOnNext(HPLog::println)
             .timeout(20000, TimeUnit.MILLISECONDS)
-            .doFinally(() -> RUNNER.execute(CLEANUP, LogUtil::println))
+            .doFinally(() -> RUNNER.execute(CLEANUP, HPLog::println))
             .subscribe(subscriber);
 
         subscriber.awaitTerminalEvent();

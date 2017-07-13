@@ -7,7 +7,7 @@ import org.swiften.javautilities.protocol.RetryProviderType;
 import org.swiften.javautilities.rx.CustomTestSubscriber;
 import org.swiften.javautilities.rx.HPReactives;
 import org.swiften.javautilities.util.Constants;
-import org.swiften.javautilities.util.LogUtil;
+import org.swiften.javautilities.util.HPLog;
 import org.swiften.xtestkitcomponents.system.network.NetworkHandler;
 import org.swiften.xtestkitcomponents.system.network.type.MaxPortType;
 import org.swiften.xtestkitcomponents.system.network.type.NetworkHandlerErrorType;
@@ -122,7 +122,7 @@ public final class NetworkHandlerTest implements NetworkHandlerErrorType {
         Flowable.range(minPort, tries)
             .map(CheckPort::new)
             .flatMap(HANDLER::rxa_checkUntilPortAvailable)
-            .doOnNext(a -> LogUtil.printft("Port %d", a))
+            .doOnNext(a -> HPLog.printft("Port %d", a))
             .subscribe(subscriber);
 
         subscriber.awaitTerminalEvent();
